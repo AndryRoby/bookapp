@@ -1,0 +1,85 @@
+# bookapp — home library in millimetres
+
+> A free public-beta app that models a home library as a spatial digital twin, in real millimetres — shelves, cabinets, drawers and books — so it knows what fits and exactly where. Android and Windows. No account, no cloud.
+
+## The core idea
+
+Most library-cataloguing apps treat a bookshelf as an abstract list. bookapp treats it as a physical object with real dimensions. You draw your shelves, cabinets and drawers to their true millimetre size — including doors and drawer fronts — the same way you'd model furniture, not a spreadsheet row. Books are placed the way they actually sit: spine out, flat, cover forward, or turned into depth, across up to three depth rows per cell. Because both sides of the equation (furniture and books) are modelled in millimetres, bookapp can answer "does this book fit, and exactly where" before you buy either the book or the bookcase.
+
+## Features
+
+- **ISBN scanning.** Point a phone camera at a barcode — single scan or a fast burst — and bookapp fills in title, author and cover automatically.
+- **Real-size shelves.** Every shelf, cell, cabinet and drawer is drawn to its true millimetre dimensions, not a generic grid.
+- **Fit checking.** See whether a book fits a given shelf and cell before buying it, and which shelf a new book belongs on (by series, author, or snugness).
+- **Catalogue.** Filterable list of the whole library with covers, titles, authors, and reading-status filters.
+- **Loan tracking.** Record who borrowed a book and their contact info.
+- **Reading progress by page**, not by percentage.
+- **Ratings** on a 1–10 star scale.
+- **Backups**, including a silent daily backup.
+- **MARC21 export/import**, and import from Goodreads and StoryGraph.
+- **Phone-to-PC sync over local Wi-Fi.** No server, no cloud — the two devices exchange the library directly over the local network, and you choose the sync direction.
+- **Offline.** Adding books, browsing shelves, tracking reading — none of it needs an internet connection.
+- **No account, ever.** The library lives on the device; there is nothing to sign up for.
+
+## What it does not (yet) do
+
+- **No automatic measurement from a photo.** This was tried seriously — several different approaches, including OpenCV-based edge detection, tested on real photos of real shelves — and none were accurate enough to trust. Neighbouring books of the same colour, print stronger than the physical edge between spines, and tilted spines all defeated it. bookapp would rather leave a field empty, or mark it approximate, than invent a number. So thickness is either measured once with a ruler (after which the app remembers it, and can back-calculate the thickness of other books on a tightly packed shelf), or estimated from the book's format and always visibly labelled "approximately" until corrected.
+- **No iPhone or iPad app.** bookapp currently runs on Android and Windows only.
+- **Not on Google Play or the Microsoft Store.** This is a direct-download public beta while packaging basics (signing, licensing) are worked out properly rather than rushed for a store listing. The Android build is signed (not an unsigned package from nowhere); it just isn't distributed through Google Play yet.
+- **Cover images.** bookapp can download book cover thumbnails from Google Books and Open Library, but only on explicit tap, never automatically in the background.
+
+## Status: free public beta (v0.1.0-beta)
+
+The goal of this release is downloads and, above all, feedback. Licensing and any paid version are genuinely undecided and will be addressed later — nothing in the current beta requires payment, and there are no trial limits, paywalls or in-app purchases.
+
+## Download
+
+- **Android:** APK, arm64 — works on essentially any Android phone from the last several years. https://github.com/AndryRoby/bookapp/releases/latest
+- **Windows:** .zip, x64 — unzip and run `bookapp.exe`, no installer, no admin rights needed. https://github.com/AndryRoby/bookapp/releases/latest
+
+### Installing on Android
+
+Android will warn about installing from an "unknown source" because bookapp isn't on Google Play yet — this is expected for any app installed outside the store. Allow the install for this file, then open the downloaded APK.
+
+### Installing on Windows
+
+The build is not code-signed yet, so Windows SmartScreen will likely show "Windows protected your PC." Click "More info," then "Run anyway." Unzip the folder first and run `bookapp.exe` from inside it.
+
+## FAQ
+
+**Is bookapp free?**
+Yes. It's a free public beta for Android and Windows — no trial limits, no paywall, no in-app purchases. Whether or how a paid version will exist later hasn't been decided.
+
+**Where is my data stored?**
+On the device, in a local database bookapp creates. Nothing is uploaded anywhere. Syncing a phone and a PC moves data directly between them over local Wi-Fi, never through a server.
+
+**Does bookapp need an account?**
+No. There is no sign-up, login, or email required.
+
+**How do I measure books?**
+Either measure a book once with a ruler and type in the millimetres, or pick its format and bookapp uses a typical thickness for that format, labelled approximate. bookapp does not measure books automatically from a photo — see "What it does not (yet) do" above.
+
+**Does bookapp work on iPhone?**
+No, not yet. Android and Windows only.
+
+**How do I sync my phone and PC?**
+Open bookapp on both devices on the same Wi-Fi network, start a sync and choose the merge direction. The devices talk directly to each other over the local network; no cloud service is involved.
+
+**Why isn't this on Google Play?**
+It's a direct-download beta while packaging basics are worked out properly. The APK is signed; it just isn't store-distributed yet.
+
+## Privacy
+
+No account, no login, no cloud service. All library data lives in a local database on the device. Phone-to-PC sync happens directly over local Wi-Fi, never through a server. Book cover downloads from Google Books / Open Library happen only on explicit user tap. The landing page (not the app) uses a self-hosted Umami instance for anonymous usage counts — page views and which button was clicked, never library contents.
+
+## Links
+
+- Landing page: https://arling.sk/bookapp/
+- Short reference: https://arling.sk/bookapp/llms.txt
+- Releases (Android + Windows downloads): https://github.com/AndryRoby/bookapp/releases/latest
+- Issues / feedback: https://github.com/AndryRoby/bookapp/issues
+- Hub (more ARLing tools): https://arling.sk/
+
+## Contact
+
+Built and maintained by ARLing s. r. o., Ivanská cesta 32E, 821 04 Bratislava, Slovakia. Company ID 56583486. andrej@arling.sk

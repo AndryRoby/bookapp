@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>bookapp — your home library in millimetres</title>
+<meta name="description" content="bookapp models your home library at true size — shelves, cabinets, drawers and books in real millimetres — so it knows what fits and where. Free public beta for Android and Windows. No account, no cloud.">
+<link rel="canonical" href="https://arling.sk/bookapp/">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#18130f">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://homelab.tailbf8f27.ts.net; connect-src 'self' https://homelab.tailbf8f27.ts.net; base-uri 'self'; form-action 'self'; object-src 'none'">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="bookapp">
+<meta property="og:title" content="bookapp — your home library in millimetres">
+<meta property="og:description" content="A spatial digital twin of your home library, modelled in real millimetres. Free public beta for Android and Windows. No account, no cloud.">
+<meta property="og:url" content="https://arling.sk/bookapp/">
+<meta property="og:image" content="https://arling.sk/bookapp/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="bookapp — your home library in millimetres">
+<meta name="twitter:description" content="A spatial digital twin of your home library, modelled in real millimetres. Free public beta for Android and Windows.">
+<meta name="twitter:image" content="https://arling.sk/bookapp/og-image.png">
+
+<link rel="icon" href="/bookapp/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/bookapp/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/bookapp/apple-touch-icon.png">
+<link rel="manifest" href="/bookapp/manifest.json">
+
+<style>
+  :root {
+    --bg:#18130f; --card:#1f1915; --card-2:#241d18; --line:#2c241e; --text:#f3ede6;
+    --muted:#a79d92; --accent:#f2a93b; --accent-ink:#18130f; --good:#8fbf8a; --warn:#e0a458;
+  }
+  * { box-sizing:border-box; }
+  html { color-scheme: dark; }
+  body {
+    margin:0; background:var(--bg); color:var(--text);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height:1.6;
+  }
+  a { color: var(--accent); }
+  main { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+
+  header.top {
+    border-bottom: 1px solid var(--line);
+    padding: 18px 24px;
+  }
+  .topwrap { max-width: 880px; margin: 0 auto; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+  .brand { display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--text); font-weight:700; font-size:17px; }
+  .brand .mono { display:inline-flex; align-items:center; justify-content:center; width:30px; height:30px; border-radius:8px; background:#100c09; font-family: Georgia, 'Times New Roman', serif; color:var(--accent); font-size:19px; }
+  .backlink { color: var(--muted); font-size: 14px; text-decoration:none; }
+  .backlink:hover { color: var(--text); }
+
+  .hero { padding: 64px 0 32px; }
+  .kicker { display:inline-block; font: 12px ui-monospace, SFMono-Regular, Menlo, monospace; color:var(--accent); border:1px solid var(--line); border-radius:6px; padding:3px 9px; margin-bottom:18px; }
+  h1 { font-size: clamp(30px, 5.2vw, 46px); margin: 0 0 16px; letter-spacing: -0.01em; line-height:1.12; }
+  .lead { color: var(--muted); font-size: 19px; margin: 0 0 28px; max-width: 62ch; }
+  .cta-row { display:flex; gap:12px; flex-wrap:wrap; margin-bottom: 8px; }
+  .btn { display:inline-flex; align-items:center; gap:8px; text-decoration:none; font-weight:600; font-size:15px; padding:12px 20px; border-radius:10px; border:1px solid var(--line); transition: border-color .15s, transform .1s; }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .btn-primary:hover { filter: brightness(1.05); }
+  .btn-ghost { background: var(--card); color: var(--text); }
+  .btn-ghost:hover { border-color: var(--accent); }
+  .fineprint { color: var(--muted); font-size: 13px; margin-top:10px; }
+
+  section { padding: 40px 0; border-top: 1px solid var(--line); }
+  section h2 { font-size: 26px; margin: 0 0 8px; letter-spacing:-0.01em; }
+  section .sub { color: var(--muted); font-size: 16px; margin: 0 0 28px; max-width: 62ch; }
+
+  .grid { display:grid; gap:14px; grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 620px) { .grid { grid-template-columns: 1fr; } }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px 22px; }
+  .card h3 { margin:0 0 6px; font-size:17px; }
+  .card p { margin:0; color:var(--muted); font-size:15px; }
+
+  .shots { display:grid; grid-template-columns: repeat(3, 1fr); gap:14px; margin-top: 8px; }
+  @media (max-width: 720px) { .shots { grid-template-columns: 1fr; } }
+  figure { margin:0; background: var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+  figure img { display:block; width:100%; height:auto; }
+  figcaption { padding: 12px 14px; color:var(--muted); font-size:13px; }
+
+  .honest { background: linear-gradient(180deg, rgba(224,164,88,0.08), transparent 60%); border:1px solid var(--line); border-radius:16px; padding:24px 26px; }
+  .honest ul { margin: 12px 0 0; padding-left: 20px; }
+  .honest li { margin-bottom: 14px; color: var(--text); }
+  .honest li .tag-no { color: var(--warn); font-weight:700; }
+  .honest p.note { color: var(--muted); font-size:14px; margin-top:18px; }
+
+  .downloads { display:grid; gap:14px; grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 620px) { .downloads { grid-template-columns: 1fr; } }
+  .dl-card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:22px; display:flex; flex-direction:column; gap:12px; }
+  .dl-card h3 { margin:0; font-size:18px; }
+  .dl-card .meta { color: var(--muted); font-size:13px; }
+  .install-notes { margin-top:24px; }
+  .install-notes h4 { font-size:15px; margin:0 0 6px; color: var(--text); }
+  .install-notes p { color: var(--muted); font-size:14px; margin:0 0 16px; }
+
+  .license-box { background: var(--card-2); border:1px dashed var(--line); border-radius:14px; padding:24px 26px; display:flex; flex-direction:column; gap:14px; align-items:flex-start; }
+  .license-box p { margin:0; color:var(--muted); max-width:56ch; }
+  #license-thanks { display:none; color: var(--good); font-weight:600; }
+  #license-thanks.show { display:block; }
+  #license-btn.hide { display:none; }
+
+  details { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 18px; margin-bottom:10px; }
+  details + details { margin-top: -2px; }
+  summary { cursor:pointer; font-weight:600; font-size:15.5px; list-style:none; display:flex; justify-content:space-between; align-items:center; gap:12px; }
+  summary::-webkit-details-marker { display:none; }
+  summary::after { content:"+"; color:var(--accent); font-size:20px; flex:none; }
+  details[open] summary::after { content:"–"; }
+  details p { color: var(--muted); margin: 10px 0 2px; font-size:15px; }
+
+  .sk-box { background: var(--card); border:1px solid var(--line); border-radius:16px; padding:26px 28px; }
+  .sk-box h2 { margin-top:0; }
+  .sk-box p { color: var(--text); }
+  .sk-box .links { margin-top:14px; display:flex; gap:16px; flex-wrap:wrap; font-size:14px; }
+
+  footer.site { border-top:1px solid var(--line); margin-top: 24px; }
+  .about { padding: 32px 0 48px; color: var(--muted); font-size: 14px; }
+  .about a { color: var(--text); }
+  .about .copy { margin-top: 18px; color: var(--muted); font-size:13px; }
+</style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "bookapp",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Android, Windows",
+  "description": "A spatial digital twin of your home library, modelled in real millimetres: shelves, cabinets, drawers and books, so bookapp knows what fits and where. Free public beta.",
+  "url": "https://arling.sk/bookapp/",
+  "downloadUrl": "https://github.com/AndryRoby/bookapp/releases/latest",
+  "softwareVersion": "public beta",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "EUR"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "ARLing s. r. o.",
+    "url": "https://arling.sk/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is bookapp free?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. bookapp is a free public beta for Android and Windows — no trial limits, no paywall, no in-app purchases. We haven't decided if or how a paid version will exist later." }
+    },
+    {
+      "@type": "Question",
+      "name": "Where is my data stored?",
+      "acceptedAnswer": { "@type": "Answer", "text": "On your own device, in a local database bookapp creates. Nothing is uploaded anywhere. If you sync a phone and a PC, the data moves directly between them over your local Wi-Fi, never through a server." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does bookapp need an account?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. There is no sign-up, no login and no email required to use the app." }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I measure books?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Either measure a book once with a ruler and type in the millimetres, or pick its format (paperback, hardback, etc.) and bookapp uses a typical thickness for that format, always labelled as approximate. bookapp does not measure books automatically from a photo; we tested that seriously and it was not reliable, so we do not ship it." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does bookapp work on iPhone?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No, not yet. bookapp currently runs on Android and Windows only." }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I sync my phone and PC?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Open bookapp on both devices while they are on the same Wi-Fi network, start a sync and choose which direction to merge. The two devices talk to each other directly over the local network; no cloud service is involved." }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header class="top">
+  <div class="topwrap">
+    <a class="brand" href="/bookapp/"><span class="mono">b</span> bookapp</a>
+    <a class="backlink" href="https://arling.sk/">← more free tools from ARLing</a>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero" style="border-top:0;">
+    <span class="kicker">free public beta · Android + Windows</span>
+    <h1>Your home library, shelf by shelf, in millimetres.</h1>
+    <p class="lead">bookapp models every shelf, cabinet, drawer and book in your home library at real size, so it can tell you what fits and exactly where — before you buy the book or the bookcase.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#download">Download the beta</a>
+      <a class="btn btn-ghost" href="#what-it-does">See what it does</a>
+    </div>
+    <p class="fineprint">No account. No cloud. Works offline. Sync a phone and a PC over your own Wi-Fi.</p>
+  </section>
+
+  <section id="what-it-does">
+    <h2>What it does</h2>
+    <p class="sub">The core idea: your shelves are modelled in real millimetres, and books sit on them the way they actually sit — spine out, flat, cover forward, or turned in depth.</p>
+    <div class="grid">
+      <div class="card">
+        <h3>Scan the ISBN</h3>
+        <p>Point your phone's camera at the barcode — one at a time or in a fast burst — and bookapp fills in the title, author and cover automatically.</p>
+      </div>
+      <div class="card">
+        <h3>Real-size shelves</h3>
+        <p>Every shelf, cell, cabinet and drawer is drawn to its true millimetre dimensions, not a generic grid — the same way a spatial twin of your furniture would be.</p>
+      </div>
+      <div class="card">
+        <h3>Know what fits, and where</h3>
+        <p>Before you buy a book or a new bookcase, see whether it fits and exactly which shelf and cell it belongs on.</p>
+      </div>
+      <div class="card">
+        <h3>Sync phone and PC over Wi-Fi</h3>
+        <p>Your phone and your Windows PC exchange the library directly over your local network — no server, no cloud, you choose the sync direction.</p>
+      </div>
+      <div class="card">
+        <h3>Works offline</h3>
+        <p>Adding books, browsing shelves, tracking reading — none of it needs an internet connection.</p>
+      </div>
+      <div class="card">
+        <h3>No account, ever</h3>
+        <p>Your library lives on your device. There's nothing to sign up for and nothing to lose access to.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="screenshots">
+    <h2>What it looks like</h2>
+    <p class="sub">Real screenshots from a real library of 292 books.</p>
+    <div class="shots">
+      <figure>
+        <img src="/bookapp/assets/shot-shelves.webp" width="1120" height="1000" loading="lazy" alt="bookapp shelves view showing a real bookcase laid out to scale, with book spines in their real widths and colours">
+        <figcaption>Shelves, laid out to true scale</figcaption>
+      </figure>
+      <figure>
+        <img src="/bookapp/assets/shot-cell.webp" width="1120" height="900" loading="lazy" alt="bookapp cell detail view showing five books with their measured millimetre dimensions and how much of the shelf width is occupied">
+        <figcaption>A shelf cell, down to the millimetre</figcaption>
+      </figure>
+      <figure>
+        <img src="/bookapp/assets/shot-catalog.webp" width="1200" height="806" loading="lazy" alt="bookapp catalog view listing books with covers, titles, authors and reading status filters">
+        <figcaption>The catalogue, with search and filters</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="honest">
+    <h2>What it does not do yet</h2>
+    <p class="sub">Said plainly, because we'd rather you know before you download.</p>
+    <div class="honest">
+      <ul>
+        <li><span class="tag-no">No automatic measurement from a photo.</span> We tried this seriously — several different approaches, tested on real photos of real shelves, all documented. None were accurate enough to trust, so bookapp doesn't pretend to do it. Instead, you either measure a book once with a ruler, or pick its format (paperback, hardback, etc.) and bookapp marks that thickness as <em>approximate</em> until you correct it.</li>
+        <li><span class="tag-no">No iPhone or iPad app.</span> bookapp currently runs on Android and Windows only.</li>
+        <li><span class="tag-no">Not on Google Play or the Microsoft Store.</span> This is a direct-download beta while we work out the basics — licensing, signing — properly, rather than rush a store listing.</li>
+      </ul>
+      <p class="note">Nothing here is a "coming soon" promise. If any of it changes, this page will say so plainly, and not a moment before it's true.</p>
+    </div>
+  </section>
+
+  <section id="download">
+    <h2>Download</h2>
+    <p class="sub">Public beta. Free. Your feedback shapes what happens next.</p>
+    <div class="downloads">
+      <div class="dl-card">
+        <h3>Android</h3>
+        <p class="meta">APK · arm64 · works on essentially any phone from the last several years</p>
+        <a class="btn btn-primary" href="https://github.com/AndryRoby/bookapp/releases/latest" data-umami-event="download-apk" rel="noopener">Download for Android</a>
+      </div>
+      <div class="dl-card">
+        <h3>Windows</h3>
+        <p class="meta">.zip · unzip and run · no installer, no admin rights needed</p>
+        <a class="btn btn-primary" href="https://github.com/AndryRoby/bookapp/releases/latest" data-umami-event="download-windows" rel="noopener">Download for Windows</a>
+      </div>
+    </div>
+
+    <div class="install-notes">
+      <h4>Installing on Android</h4>
+      <p>bookapp isn't on Google Play yet, so Android will warn about installing from "unknown sources." That's expected for a direct-download beta — allow it for this one file, then open the downloaded APK to install.</p>
+      <h4>Installing on Windows</h4>
+      <p>The build isn't code-signed yet, so Windows SmartScreen will likely show "Windows protected your PC." Click "More info," then "Run anyway." Unzip the folder first and run <code>bookapp.exe</code> from inside it.</p>
+    </div>
+  </section>
+
+  <section id="license">
+    <h2>Would you pay for a full version?</h2>
+    <div class="license-box">
+      <p>bookapp is free for now and the licensing question is genuinely open — we haven't decided if, when or how a paid version would work. One click tells us it's worth figuring out.</p>
+      <button class="btn btn-ghost" id="license-btn" data-umami-event="license_interest" type="button">Yes, I'd pay for a full version</button>
+      <p id="license-thanks">Thank you — noted. No email, no account, just a click that counts.</p>
+    </div>
+  </section>
+
+  <section id="faq">
+    <h2>Frequently asked questions</h2>
+    <details>
+      <summary>Is it free?</summary>
+      <p>Yes. bookapp is a free public beta for Android and Windows — no trial limits, no paywall, no in-app purchases. We haven't decided if or how a paid version will exist later.</p>
+    </details>
+    <details>
+      <summary>Where is my data stored?</summary>
+      <p>On your own device, in a local database bookapp creates. Nothing is uploaded anywhere. If you sync a phone and a PC, the data moves directly between them over your local Wi-Fi, never through a server.</p>
+    </details>
+    <details>
+      <summary>Does it need an account?</summary>
+      <p>No. There is no sign-up, no login and no email required to use the app.</p>
+    </details>
+    <details>
+      <summary>How do I measure books?</summary>
+      <p>Either measure a book once with a ruler and type in the millimetres, or pick its format (paperback, hardback, etc.) and bookapp uses a typical thickness for that format, always labelled as approximate. bookapp does not measure books automatically from a photo; we tested that seriously and it wasn't reliable, so we don't ship it.</p>
+    </details>
+    <details>
+      <summary>Does it work on iPhone?</summary>
+      <p>No, not yet. bookapp currently runs on Android and Windows only.</p>
+    </details>
+    <details>
+      <summary>How do I sync phone and PC?</summary>
+      <p>Open bookapp on both devices while they're on the same Wi-Fi network, start a sync and choose which direction to merge. The two devices talk to each other directly over the local network; no cloud service is involved.</p>
+    </details>
+  </section>
+
+  <section id="sk" style="border-top:0; padding-top:8px;">
+    <div class="sk-box">
+      <h2>Po slovensky</h2>
+      <p>bookapp modeluje vašu domácu knižnicu v skutočných milimetroch — police, skrinky, zásuvky aj jednotlivé knihy — takže vopred viete, či sa kniha zmestí a presne kam patrí. Naskenujete čiarový kód ISBN a appka si sama nájde názov, autora aj obálku. Telefón a počítač s Windows si vedia knižnicu synchronizovať priamo cez domácu Wi-Fi, bez cloudu a bez účtu. Appka funguje aj offline.</p>
+      <p>Čo appka (zatiaľ) nevie: automaticky odmerať hrúbku knihy z fotky — skúšali sme to poctivo, viacerými spôsobmi, na skutočných fotkách, a spoľahlivo to nefungovalo, tak to netvrdíme. Rozmer buď raz zmeriate metrom, alebo vyberiete formát knihy a appka ho označí ako <em>približný</em>. Appka pre iPhone zatiaľ neexistuje a appka nie je v Google Play ani v Microsoft Store — ide o priame stiahnutie počas verejnej bety.</p>
+      <p>Je to bezplatná verejná beta. Sťahujte, skúste, a ak niečo chýba alebo nefunguje, napíšte. Otázku licencie (či a ako bude appka niekedy platená) riešime neskôr — ak by ste si za plnú verziu zaplatili, dajte nám to vedieť jedným klikom vyššie.</p>
+      <div class="links">
+        <a href="#download">Stiahnuť appku ↓</a>
+        <a href="#faq">Časté otázky ↓</a>
+        <a href="mailto:andrej@arling.sk" data-umami-event="contact-email">Napísať e-mail</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <main>
+    <div class="about">
+      <p>bookapp is built and maintained by <a href="https://arling.sk/">ARLing s. r. o.</a>, a one-person company in Bratislava, Slovakia. Questions, bugs or feature requests: <a href="mailto:andrej@arling.sk" data-umami-event="contact-email">andrej@arling.sk</a>.</p>
+      <p>bookapp is provided as is, without warranty, as a free public beta. Anonymous usage counts (page views and button clicks, not what you type) are collected with self-hosted Umami.</p>
+      <p class="copy">© 2026 ARLing s. r. o. · Ivanská cesta 32E, 821 04 Bratislava, Slovakia · ID 56583486</p>
+    </div>
+  </main>
+</footer>
+
+<script>
+  (function () {
+    var btn = document.getElementById('license-btn');
+    var thanks = document.getElementById('license-thanks');
+    if (!btn || !thanks) return;
+    btn.addEventListener('click', function () {
+      btn.classList.add('hide');
+      thanks.classList.add('show');
+    });
+  })();
+</script>
+<script defer src="https://homelab.tailbf8f27.ts.net/script.js" data-website-id="f21d767b-6137-4a51-91bb-6352c87bffa2"></script>
+</body>
+</html>
