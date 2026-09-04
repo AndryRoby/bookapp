@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://homelab.tailbf8f27.ts.net; connect-src https://homelab.tailbf8f27.ts.net; img-src 'self' data:; style-src 'self' 'unsafe-inline'; base-uri 'self'; form-action 'none'; object-src 'none'">
+<title>bookapp docs</title>
+<meta name="description" content="Step-by-step guide to bookapp: install it, draw your shelves to true millimetres, add and measure books, sync a phone and PC, and back up your library. Twelve short chapters, one screenshot each.">
+<link rel="canonical" href="https://arling.sk/bookapp/docs/">
+<link rel="alternate" hreflang="en" href="https://arling.sk/bookapp/docs/">
+<link rel="alternate" hreflang="sk" href="https://arling.sk/bookapp/docs/sk/">
+<link rel="alternate" hreflang="x-default" href="https://arling.sk/bookapp/docs/">
+<meta property="og:title" content="bookapp docs">
+<meta property="og:description" content="Step-by-step guide to bookapp, in twelve short chapters: install, draw shelves, add and measure books, sync, back up.">
+<meta property="og:url" content="https://arling.sk/bookapp/docs/">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://arling.sk/bookapp/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#f6f2ea">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="manifest" href="../manifest.json">
+<link rel="alternate" type="text/plain" href="https://arling.sk/bookapp/llms.txt" title="llms.txt">
+<style>
+  :root {
+    --paper:#f6f2ea; --paper-2:#fbf9f4; --ink:#1b1a17; --ink-2:#4a4741; --muted:#7a766e; --line:#d9d2c4;
+    --accent:#b23a1d; --accent-soft:#f3e2dc; --ok:#2f6f3e;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    --sans:system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"Cascadia Code",Consolas,Menlo,monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --paper:#151412; --paper-2:#1d1b18; --ink:#efe9de; --ink-2:#c9c2b5; --muted:#8f887b; --line:#2e2b26; --accent:#e0623f; --accent-soft:#3a1f17; --ok:#7fbf8e; }
+  }
+  * { box-sizing:border-box; min-width:0; }
+  html { background:var(--paper); scroll-behavior:smooth; }
+  body { margin:0; color:var(--ink); background:var(--paper); font:16px/1.55 var(--sans); -webkit-font-smoothing:antialiased; overflow-wrap:anywhere; }
+  a { color:inherit; text-decoration-color:var(--line); text-underline-offset:3px; }
+  a:hover { text-decoration-color:var(--accent); }
+  :focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+  img { max-width:100%; height:auto; display:block; }
+  .skip { position:absolute; left:-999px; top:8px; background:var(--ink); color:var(--paper); padding:8px 12px; z-index:10; }
+  .skip:focus { left:8px; }
+  .wrap { max-width:1040px; margin:0 auto; padding:0 24px; }
+  header.top { border-bottom:1px solid var(--line); }
+  header.top .wrap { display:flex; align-items:baseline; justify-content:space-between; gap:24px; padding:18px 24px; flex-wrap:wrap; }
+  .wordmark { font:600 22px/1 var(--serif); text-decoration:none; }
+  .wordmark small { font:13px/1 var(--sans); color:var(--muted); margin-left:10px; letter-spacing:.04em; }
+  nav.main { display:flex; align-items:baseline; gap:0; flex-wrap:wrap; }
+  nav.main a { font-size:14px; margin-left:20px; text-decoration:none; color:var(--ink-2); }
+  nav.main a:hover { color:var(--accent); }
+  .langsw { margin-left:20px; font-size:14px; }
+  .langsw a { text-decoration:none; color:var(--ink-2); padding:2px 4px; }
+  .langsw a[aria-current] { color:var(--ink); font-weight:600; border-bottom:2px solid var(--accent); }
+  .pagehead { padding:48px 0 8px; }
+  .pagehead h1 { font:400 clamp(30px,4.6vw,44px)/1.1 var(--serif); letter-spacing:-.01em; margin:0 0 14px; max-width:22ch; }
+  .pagehead p.lead { font-size:18px; color:var(--ink-2); max-width:60ch; margin:0 0 18px; }
+  .facts { list-style:none; margin:0 0 36px; padding:0; display:flex; flex-wrap:wrap; gap:8px 0; color:var(--muted); font-size:14px; }
+  .facts li + li::before { content:"·"; margin:0 10px; color:var(--line); }
+  .facts b { color:var(--ink); font-weight:600; }
+  .docgrid { display:grid; grid-template-columns:1fr; gap:8px; padding-bottom:56px; }
+  @media (min-width:860px) { .docgrid { grid-template-columns:220px minmax(0,1fr); gap:48px; align-items:start; } }
+  nav.toc { border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-bottom:8px; }
+  @media (min-width:860px) { nav.toc { position:sticky; top:20px; border-bottom:none; } }
+  nav.toc p.tocLabel { font:400 13px/1 var(--serif); color:var(--muted); letter-spacing:.06em; text-transform:uppercase; margin:16px 0 4px; }
+  nav.toc ol { list-style:none; margin:0; padding:0; counter-reset:toc; }
+  nav.toc li { counter-increment:toc; border-top:1px solid var(--line); }
+  nav.toc li:first-child { border-top:none; }
+  nav.toc a { display:flex; gap:10px; padding:9px 0; text-decoration:none; color:var(--ink-2); font-size:14px; line-height:1.3; }
+  nav.toc a::before { content:counter(toc,decimal-leading-zero); font:400 13px/1.6 var(--serif); color:var(--accent); flex:none; }
+  nav.toc a:hover { color:var(--ink); }
+  .chapter { padding:44px 0; border-bottom:1px solid var(--line); scroll-margin-top:20px; }
+  .chapter:last-of-type { border-bottom:none; }
+  .kicker { font:400 14px/1 var(--serif); color:var(--accent); letter-spacing:.06em; text-transform:uppercase; margin:0 0 10px; }
+  h2 { font:400 28px/1.2 var(--serif); margin:0 0 12px; letter-spacing:-.005em; }
+  .chapter > p.sub { color:var(--ink-2); max-width:66ch; margin:0 0 20px; }
+  .steps { counter-reset:step; list-style:none; margin:20px 0; padding:0; max-width:66ch; }
+  .steps li { counter-increment:step; position:relative; padding:13px 0 13px 38px; border-top:1px solid var(--line); }
+  .steps li:first-child { border-top:none; padding-top:0; }
+  .steps li::before { content:counter(step)"."; position:absolute; left:0; top:13px; font:400 16px/1.4 var(--serif); color:var(--accent); }
+  .steps li:first-child::before { top:0; }
+  .steps b { color:var(--ink); }
+  figure.shot { margin:26px 0; max-width:720px; }
+  figure.shot img { border:1px solid var(--line); background:var(--paper-2); }
+  figure.shot figcaption { color:var(--muted); font-size:13.5px; margin-top:8px; max-width:66ch; }
+  .shots2 { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; max-width:900px; }
+  .shots2 figure.shot { max-width:none; margin:0; }
+  @media (max-width:700px) { .shots2 { grid-template-columns:1fr; } }
+  .callout { max-width:66ch; margin:16px 0; padding:2px 0 2px 14px; border-left:3px solid var(--line); color:var(--ink-2); font-size:15px; }
+  .callout.tip { border-left-color:var(--ok); }
+  .callout.warn { border-left-color:var(--accent); }
+  .callout b { color:var(--ink); }
+  .noshot { color:var(--muted); font-size:14px; font-style:italic; max-width:60ch; margin:18px 0 0; }
+  code { font:13.5px/1.4 var(--mono); background:var(--paper-2); border:1px solid var(--line); border-radius:3px; padding:1px 5px; overflow-wrap:anywhere; }
+  .glossary { margin:16px 0 0; max-width:70ch; }
+  .glossary > div { padding:16px 0; border-top:1px solid var(--line); }
+  .glossary > div:first-child { border-top:none; }
+  .glossary dt { font:400 19px/1.3 var(--serif); margin:0 0 6px; }
+  .glossary dd { margin:0; color:var(--ink-2); }
+  footer { padding:32px 0 56px; color:var(--muted); font-size:14px; border-top:1px solid var(--line); }
+  footer .cols { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px 32px; }
+  footer b { color:var(--ink); font-weight:600; }
+  footer a { color:var(--ink-2); }
+  @media (max-width:480px) { .pagehead { padding:36px 0 4px; } nav.main a, .langsw { margin-left:12px; } .wordmark small { display:none; } }
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","headline":"bookapp docs","description":"Step-by-step guide to bookapp: install it, draw shelves to true millimetres, add and measure books, place them, sync a phone and PC, and back up your library.","inLanguage":"en","url":"https://arling.sk/bookapp/docs/","mainEntityOfPage":"https://arling.sk/bookapp/docs/","about":{"@type":"SoftwareApplication","name":"bookapp","applicationCategory":"UtilitiesApplication","operatingSystem":"Android, Windows"},"publisher":{"@type":"Organization","name":"ARLing s. r. o.","url":"https://arling.sk/"},"datePublished":"2026-09-05","dateModified":"2026-09-05"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"HowTo","name":"Install bookapp","description":"Download and install the bookapp public beta on Android or Windows.","step":[
+{"@type":"HowToStep","name":"Download","text":"Go to the GitHub releases page and download the APK (Android, arm64) or the .zip (Windows, x64)."},
+{"@type":"HowToStep","name":"Install on Android","text":"Open the downloaded APK. Allow installing outside Google Play for this one file, then install; the APK is signed."},
+{"@type":"HowToStep","name":"Install on Windows","text":"Unzip the folder and run bookapp.exe. If SmartScreen appears, click 'More info' then 'Run anyway' (the build is not code-signed yet)."}
+]}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to guide</a>
+<header class="top">
+  <div class="wrap">
+    <a class="wordmark" href="https://arling.sk/bookapp/">bookapp<small>docs</small></a>
+    <nav class="main" aria-label="Page">
+      <a href="https://arling.sk/bookapp/">bookapp</a>
+      <a href="https://arling.sk/bookapp/#download">Download</a>
+      <span class="langsw" aria-label="Language"><a href="https://arling.sk/bookapp/docs/" aria-current="page">EN</a> · <a href="https://arling.sk/bookapp/docs/sk/">SK</a></span>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+    <div class="pagehead">
+      <h1>How to use bookapp.</h1>
+      <p class="lead">Twelve short chapters, each with the exact steps and one real screenshot. Everything here matches version 0.1.0-beta. Where a feature isn't finished yet, this guide says so instead of guessing.</p>
+      <ul class="facts">
+        <li>version <b>0.1.0-beta</b></li>
+        <li>Android and Windows</li>
+        <li>12 chapters</li>
+        <li>updated <b>2026-09-05</b></li>
+      </ul>
+    </div>
+
+    <div class="docgrid">
+      <nav class="toc" aria-label="Chapters">
+        <p class="tocLabel">Chapters</p>
+        <ol>
+          <li><a href="#install">Install</a></li>
+          <li><a href="#first-library">Your first library</a></li>
+          <li><a href="#drawing-shelves">Drawing shelves</a></li>
+          <li><a href="#adding-books">Adding books</a></li>
+          <li><a href="#measuring-books">Measuring books</a></li>
+          <li><a href="#placing-books">Placing books</a></li>
+          <li><a href="#bookshop">In the bookshop</a></li>
+          <li><a href="#sync">Sync phone and PC</a></li>
+          <li><a href="#backups">Backups, restore, export</a></li>
+          <li><a href="#settings">Settings and language</a></li>
+          <li><a href="#troubleshooting">Troubleshooting</a></li>
+          <li><a href="#glossary">Glossary</a></li>
+        </ol>
+      </nav>
+
+      <div class="chapters">
+
+        <section class="chapter" id="install">
+          <p class="kicker">01</p>
+          <h2>Install</h2>
+          <p class="sub">bookapp is a free public beta, downloaded directly. It is not on Google Play or the Microsoft Store yet, so both operating systems warn you before the first run. That warning is expected.</p>
+          <ol class="steps">
+            <li>Open the <a href="https://github.com/AndryRoby/bookapp/releases/latest" rel="noopener">releases page on GitHub</a> and download the file for your device: the APK for Android (arm64, about 35 MB) or the .zip for Windows (about 41 MB).</li>
+            <li><b>Android:</b> open the downloaded APK. Android blocks installs from outside Google Play by default. Allow it for this one file and continue. The APK is signed.</li>
+            <li><b>Windows:</b> unzip the folder and run <code>bookapp.exe</code> directly. There is no installer and it does not need administrator rights.</li>
+            <li><b>Windows:</b> SmartScreen shows "Windows protected your PC" because the build is not code-signed yet. Click "More info", then "Run anyway".</li>
+            <li>First launch opens straight to Libraries: no sign-up, no setup wizard. Tap "New library" to start; chapter 2 covers that.</li>
+          </ol>
+          <p class="callout"><b>Where your data lives:</b> on Windows, in <code>Documents\bookapp\bookapp.sqlite</code>, next to a <code>Documents\bookapp\backups</code> folder you can open in File Explorer. On Android, the library itself sits inside the app's private storage, which you can't browse directly, but its backups are mirrored to a folder your phone's file manager can see (chapter 9 has the exact path). Nothing is uploaded anywhere either way.</p>
+          <p class="callout warn"><b>Pozor:</b> Android and Windows only, for now. There is no iPhone, iPad or Mac build.</p>
+          <p class="noshot">No screenshot for this chapter: both warnings shown above come from Android and Windows themselves, not from bookapp.</p>
+        </section>
+
+        <section class="chapter" id="first-library">
+          <p class="kicker">02</p>
+          <h2>Your first library</h2>
+          <p class="sub">A library is one collection tied to one room. You can have as many as you like: one per room, or one for the whole flat.</p>
+          <ol class="steps">
+            <li>Open bookapp. "Libraries" is the home screen; it lists every library you've created as a card, each with a small preview of its shelves.</li>
+            <li>Tap "New library".</li>
+            <li>Give it a name and pick which room it's in. Both show up on the library card afterwards.</li>
+            <li>The library opens empty. Earlier betas offered a ready-made sample library to explore first; that was deliberately removed, so you start from your own room and build it shelf by shelf (chapter 3 is exactly that).</li>
+            <li>Once there are books on shelves, each card keeps a running summary on its own: how many books, how many linear metres of books, and how much shelf space is still free.</li>
+          </ol>
+          <p class="callout tip"><b>Tip:</b> the search field at the top of Libraries ("Find a book or a decoration...") searches your whole collection at once, across every library, not just the one you're currently looking at.</p>
+          <figure class="shot">
+            <img src="img/kniznice.webp" width="1200" height="844" loading="lazy" alt="Libraries screen: a list of libraries, each showing its room, book count, shelf length used and free space, with a New library button">
+            <figcaption>Libraries: each card is one room, with its own running totals.</figcaption>
+          </figure>
+        </section>
+
+        <section class="chapter" id="drawing-shelves">
+          <p class="kicker">03</p>
+          <h2>Drawing shelves</h2>
+          <p class="sub">Every shelf, cabinet and drawer is drawn to its own real millimetres, not to a generic grid. That is what lets bookapp later tell you whether a book actually fits.</p>
+          <ol class="steps">
+            <li>Inside a library, set up the grid: how many rows and how many columns of cells the bookcase has.</li>
+            <li>Drag the ruler on a row or column edge to set its true width or height in millimetres. Cells don't have to match: a row can be 820, 460 and 640 mm across, for example, and bookapp keeps every cell's own size.</li>
+            <li>Select two or more adjoining cells and merge them into one block, for a cabinet or a wide shelf that spans what would otherwise be several cells.</li>
+            <li>Open a cell and set what kind of place it is: a shelf (open, seen from the front), a drawer (seen from above), or a slot for a TV or air conditioning. For a cabinet, add doors: single or double, hinged left, right or centre, solid or glazed.</li>
+            <li>Setting a cell's depth is optional, but doing it turns on the check for whether a book would stick out the front.</li>
+            <li>Don't have the bookcase in front of you yet? Sketch its shape on ordinary grid paper first, then turn the sketch directly into cells.</li>
+          </ol>
+          <p class="callout tip"><b>Tip:</b> a cell's width and height should be the size of the opening, gaps between shelf boards included. bookapp already accounts for the boards themselves, so measure (or drag) the opening, not a single plank.</p>
+          <figure class="shot">
+            <img src="img/pravitko-regalu.webp" width="1200" height="431" loading="lazy" alt="Ruler drag across a row of shelf cells, showing 820, 460 and 640 millimetre widths marked above each cell">
+            <figcaption>Dragging the ruler sets each cell's true width in millimetres. Cells don't have to match.</figcaption>
+          </figure>
+        </section>
+
+        <section class="chapter" id="adding-books">
+          <p class="kicker">04</p>
+          <h2>Adding books</h2>
+          <p class="sub">Four ways in, all landing in the same catalogue: scan, search, type it by hand, or import a whole spreadsheet at once.</p>
+          <ol class="steps">
+            <li><b>Scan (phone only):</b> open "Add by ISBN" and point the camera at the barcode. bookapp fills in title, author and cover from Open Library.</li>
+            <li>Keep the field focused and scan the next book right away: about 50 books in two minutes for a full shelf.</li>
+            <li><b>No barcode, or on Windows:</b> the scanner only exists on the phone build. Use "Search for a book" and type a title or author instead; it also searches Open Library, and you can edit whatever it finds before saving.</li>
+            <li><b>Still nothing found:</b> add it by hand with "New book". Title is the only required field; author, ISBN and dimensions are all optional.</li>
+            <li><b>Already cataloguing elsewhere:</b> import a CSV or Excel export from Goodreads, StoryGraph, or your own spreadsheet. bookapp guesses which column is which on the "Column mapping" screen, shows a live preview, and you fix the match before anything is written. A separate switch controls whether books you already own get skipped or added again.</li>
+            <li><b>Library software instead:</b> MARC21 import and export both work.</li>
+          </ol>
+          <p class="callout warn"><b>Pozor:</b> MARC21 only carries a book's height, in whole centimetres, so an import from MARC21 is always marked as an estimate, never a measurement.</p>
+          <div class="shots2">
+            <figure class="shot">
+              <img src="img/skenovanie.webp" width="1200" height="844" loading="lazy" alt="Add by ISBN screen with an empty barcode field and the note: type it and press Enter, the next one follows straight after">
+              <figcaption>Add by ISBN: scan one after another, no need to reopen the screen.</figcaption>
+            </figure>
+            <figure class="shot">
+              <img src="img/mapovanie-stlpcov.webp" width="1200" height="844" loading="lazy" alt="Column mapping screen matching a CSV file's columns (Title, Author, ISBN, Year, Note) to bookapp fields with a live preview table">
+              <figcaption>Column mapping: check the guessed match against a live preview before importing.</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="chapter" id="measuring-books">
+          <p class="kicker">05</p>
+          <h2>Measuring books</h2>
+          <p class="sub">bookapp does not read a book's thickness from a photo. Four different methods were tried on real shelves and none were accurate enough to trust, so instead of guessing quietly, bookapp is explicit about where every size comes from.</p>
+          <ol class="steps">
+            <li>Measure a book once with an actual ruler and type its height, width and thickness in millimetres.</li>
+            <li>Or pick its format instead: paperback, hardback, and so on. bookapp fills in a typical thickness for that format and marks it as an estimate until you correct it.</li>
+            <li>Once a shelf is completely full and every book on it has at least a format, open "Order in the library". The shelf's own known width lets bookapp back-calculate the real thickness of the books on it that were never measured directly: no photo, no camera, just arithmetic from a full shelf.</li>
+            <li>Check the "spatial accuracy" figure in Statistics any time: it tells you what share of your library's dimensions are actually measured versus estimated.</li>
+          </ol>
+          <p class="callout"><b>Where each number came from:</b> every dimension bookapp shows is tagged with its source: measured by you, back-calculated from a full shelf, estimated from a format, taken from an import, or unknown. Nothing is ever silently made up.</p>
+          <p class="callout warn"><b>Pozor:</b> photo measurement was tested seriously, on real shelves, four separate times, and rejected on 29 July 2026 because it was wrong often enough to be dangerous. A confidently wrong number is worse than an empty field, so bookapp doesn't ship one.</p>
+          <figure class="shot">
+            <img src="img/doktor.webp" width="1200" height="844" loading="lazy" alt="Order in the library screen showing a shelf that is 9 percent full, with a note explaining that the shelf measures itself and 14 cell sizes were confirmed without picking up a single book">
+            <figcaption>Order in the library: a full shelf backfilling the thickness of the books that were never measured.</figcaption>
+          </figure>
+        </section>
+
+        <section class="chapter" id="placing-books">
+          <p class="kicker">06</p>
+          <h2>Placing books</h2>
+          <p class="sub">bookapp checks a book against every cell in the library, in every way it could physically stand, and orders the results so the one you actually want is at the top.</p>
+          <ol class="steps">
+            <li>Open a book's detail page and tap "Where will it fit?": bookapp checks every cell in the library and lists which ones have room.</li>
+            <li>Each candidate is checked in all three ways a book can stand: spine out, cover forward, or lying flat (and turned into the depth of the shelf, as a last resort, when nothing else fits).</li>
+            <li>To place a whole series at once, use "Place a series": pick the series, and bookapp finds a run of shelf that keeps every volume together, in the right order, and tells you how it fits.</li>
+            <li>Where a specific book belongs on a shelf isn't arbitrary: bookapp orders candidates by series first, then author, then snugness, the tightest sensible fit.</li>
+            <li>A placement can be tried and undone with a single tap before you commit to it.</li>
+            <li>Running out of room? "Free up space" finds a reshuffle. It tells you up front how much continuous space it would free ("you gain 400 cm", say, from five shelves emptied completely, not scattered gaps you couldn't use anyway), and lists every move before you accept it.</li>
+          </ol>
+          <p class="callout tip"><b>Tip:</b> a series page also flags "missing part 3" by counting the gaps between the volumes you actually own. It only warns about books you seem to be missing, not simply every number past the last one you catalogued.</p>
+          <figure class="shot">
+            <img src="img/detail-knihy.webp" width="1200" height="844" loading="lazy" alt="Book detail screen with a Where will it fit button, and a note explaining that the check scans every cell for free millimetres, both width and depth">
+            <figcaption>A book's detail page: "Where will it fit?" checks every cell at once.</figcaption>
+          </figure>
+        </section>
+
+        <section class="chapter" id="bookshop">
+          <p class="kicker">07</p>
+          <h2>In the bookshop</h2>
+          <p class="sub">Built for the moment you're standing in a shop holding a book, wondering whether you already own it and whether it would even fit at home.</p>
+          <ol class="steps">
+            <li>Open "In the bookshop" before you buy.</li>
+            <li>Scan the ISBN, or type the title if there's no barcode, or no camera on this device.</li>
+            <li>If you don't know the book's exact size yet, pick its format instead: pocket, paperback, hardback, or large format.</li>
+            <li>One scan answers three questions at once: do you already own it, will it fit anywhere in your library, and exactly where.</li>
+          </ol>
+          <p class="callout tip"><b>Tip:</b> it works without a camera too. Type the ISBN or the title by hand and get the same three answers.</p>
+          <figure class="shot">
+            <img src="img/knihkupectvo.webp" width="1200" height="844" loading="lazy" alt="In the bookshop screen: a field for ISBN or title, format buttons for pocket, paperback, hardback and large format, and the note that one scan answers whether you own it, whether it fits, and exactly where">
+            <figcaption>In the bookshop: one scan, three answers.</figcaption>
+          </figure>
+        </section>
+
+        <section class="chapter" id="sync">
+          <p class="kicker">08</p>
+          <h2>Sync phone and PC</h2>
+          <p class="sub">Your phone and your Windows PC talk to each other directly over your own Wi-Fi. No server sees your library, ever.</p>
+          <ol class="steps">
+            <li>Put both devices on the same Wi-Fi network.</li>
+            <li>Open "Sync" on both.</li>
+            <li>On Windows, allow the connection the first time "Windows Defender Firewall blocked some features" appears: tick Private networks and confirm. Without it the two devices can't find each other. bookapp doesn't need administrator rights, doesn't install a service, and the connection only exists while this screen is open on both sides.</li>
+            <li>Tap "Turn on sync" on both devices.</li>
+            <li>Choose the direction, and let it merge: nothing is deleted, and where the same record changed on both sides, the newer edit wins.</li>
+            <li>Handing the phone to someone else, or bringing it into a shop where a stray tap could move a book? Turn on "Visitor mode" first: everything stays browsable, but nothing can be moved or deleted, not even by accident.</li>
+          </ol>
+          <figure class="shot">
+            <img src="img/synchronizacia.webp" width="1200" height="844" loading="lazy" alt="Sync screen explaining that both devices must be on the same Wi-Fi, warning about the Windows Firewall prompt, and a Turn on sync button">
+            <figcaption>Sync: direct and local, running only while this screen is open.</figcaption>
+          </figure>
+        </section>
+
+        <section class="chapter" id="backups">
+          <p class="kicker">09</p>
+          <h2>Backups, restore and export</h2>
+          <p class="sub">Backups happen without being asked for, and the app makes one more before anything it does could lose data.</p>
+          <ol class="steps">
+            <li>bookapp backs itself up automatically and silently every day, keeping the last seven. It's data only (catalogue, shelves, dimensions, reading), not cover images, so all seven together come to a few megabytes.</li>
+            <li>Before any action that would overwrite your library (restoring, a big import, wiping a library), bookapp takes one extra "safety backup" first, specifically so that action can be undone.</li>
+            <li>Backups live outside the app on purpose. On Windows: <code>Documents\bookapp\backups</code>. On Android: a folder in the phone's shared storage that's visible in a file manager or over USB, so a lost or reset phone doesn't take your backups with it. Uninstalling bookapp does remove this folder, though, so copy it out first if you're about to uninstall.</li>
+            <li>Go to Settings &#8594; "Backup and restore" to export a backup on demand, or restore one. Restoring replaces the current library: that's exactly why the safety backup exists.</li>
+            <li>Need the data in another shape? Settings &#8594; "Export and handover" covers CSV, JSON, MARCXML, an inventory sheet, and a plain list formatted for handing to an AI tool.</li>
+            <li>Moving flats, selling a bookcase, or just want a paper record? Export the PDF library audit and a joinery report (dimensions and a cut list, including drawer cut-outs). Every export carries a signature stating exactly which data it was built from.</li>
+          </ol>
+          <p class="callout warn"><b>Pozor:</b> MARC21 export only carries a book's height, in whole centimetres. Treat a round-trip through MARC21 as a downgrade in precision, not a full backup.</p>
+          <figure class="shot">
+            <img src="img/nastavenia.webp" width="1200" height="844" loading="lazy" alt="Settings screen listing Backup and restore, Import, Export and handover, Covers and images, Sync, Library maintenance, Metadata sources and About, with a Visitor mode toggle at the top">
+            <figcaption>Settings: backup, import and export each have their own screen.</figcaption>
+          </figure>
+        </section>
+
+        <section class="chapter" id="settings">
+          <p class="kicker">10</p>
+          <h2>Settings and language</h2>
+          <ol class="steps">
+            <li>Language and appearance live together, in Settings &#8594; "About": Slovak or English, chosen directly or set to match your system. It applies immediately, no restart.</li>
+            <li>Switching the interface language doesn't translate stored data: values like a copy's condition or export column headers keep their internal English code names on purpose, so an older backup, or a sync with a device set to the other language, still reads correctly.</li>
+            <li>Theme (match system, light, or dark) sits on the same screen and also applies immediately.</li>
+          </ol>
+          <p class="callout"><b>Units:</b> bookapp shows sizes in millimetres and centimetres; there is no separate switch for inches today, and dimensions are always stored in millimetres underneath, whichever language the interface is in.</p>
+          <p class="noshot">No screenshot for this chapter yet: the language and theme switches sit inside the About screen, which isn't captured separately from the rest of Settings in this build.</p>
+        </section>
+
+        <section class="chapter" id="troubleshooting">
+          <p class="kicker">11</p>
+          <h2>Troubleshooting</h2>
+          <ol class="steps">
+            <li><b>Android says "App not installed":</b> this happens when an older or differently-built copy is already on the phone. bookapp's release APK carries its own version number per device architecture, and Android refuses anything it reads as a downgrade. Fix: uninstall the old copy first, then install the fresh APK from the latest release.</li>
+            <li><b>Windows SmartScreen:</b> "Windows protected your PC" appears because the build isn't code-signed yet (chapter 1). Click "More info", then "Run anyway".</li>
+            <li><b>Sync can't find the other device:</b> check that both devices are actually on the same Wi-Fi (not a guest or isolated network, which many public and some home "guest" networks use on purpose to keep devices from seeing each other), that the Sync screen is open on both sides at once, and that you allowed the Windows Firewall prompt for private networks.</li>
+            <li><b>A dimension looks wrong:</b> open the book and check where that number came from (chapter 5). An estimate or an import is allowed to be off; a manually measured one shouldn't be. Re-measure it with a ruler and re-enter it.</li>
+            <li><b>Reporting a bug:</b> this beta doesn't write a crash log yet, so the most useful report is a precise one: which screen, what you tapped, what you expected, what happened instead, and whether it happened again on a second try. Open an issue on <a href="https://github.com/AndryRoby/bookapp/issues" rel="noopener">GitHub</a>. If the app fails to start at all, don't touch anything else first. Copy the backups folder (chapter 9) somewhere safe before you reinstall or clear any data.</li>
+          </ol>
+        </section>
+
+        <section class="chapter" id="glossary">
+          <p class="kicker">12</p>
+          <h2>Glossary</h2>
+          <p class="sub">Terms used throughout this guide, as bookapp itself uses them.</p>
+          <dl class="glossary">
+            <div>
+              <dt>Cell</dt>
+              <dd>One square of the grid: a shelf, a drawer, or a slot for a TV or air conditioning, each with its own real width, height, and optional depth.</dd>
+            </div>
+            <div>
+              <dt>Block</dt>
+              <dd>Two or more adjoining cells merged into one physical piece of furniture: a cabinet spanning several shelf openings, for example. A block's footprint is always one whole rectangle.</dd>
+            </div>
+            <div>
+              <dt>Cabinet</dt>
+              <dd>A cell or block fitted with doors: single or double, hinged left, right or centre, solid or glazed.</dd>
+            </div>
+            <div>
+              <dt>Drawer</dt>
+              <dd>A cell viewed from above rather than from the front: its contents, and their exact positions, are drawn on its floor.</dd>
+            </div>
+            <div>
+              <dt>Shelf as a ruler</dt>
+              <dd>A fully packed shelf whose own known width lets bookapp back-calculate the thickness of any book on it that was never measured directly (chapter 5).</dd>
+            </div>
+            <div>
+              <dt>Dimension source</dt>
+              <dd>Where a book's size came from: measured by you, back-calculated from a full shelf, estimated from its format, taken from an import, or unknown.</dd>
+            </div>
+            <div>
+              <dt>Orientation</dt>
+              <dd>How a book stands in its cell: spine out, cover forward, lying flat, or turned into the depth of the shelf when nothing else fits.</dd>
+            </div>
+            <div>
+              <dt>Visitor mode</dt>
+              <dd>A lock that leaves the whole library browsable but blocks every change. Made for handing the phone to someone else without risking a stray tap.</dd>
+            </div>
+            <div>
+              <dt>Trial layout</dt>
+              <dd>A placement you can try and undo with a single tap before committing to it.</dd>
+            </div>
+          </dl>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap cols">
+    <div><b>ARLing s. r. o.</b><br>Ivanská cesta 32E<br>821 04 Bratislava, Slovakia</div>
+    <div>Company ID 56583486<br>VAT ID SK2122352100<br><a href="mailto:andrej@arling.sk">andrej@arling.sk</a></div>
+    <div><a href="https://arling.sk/bookapp/">bookapp</a> · <a href="https://github.com/AndryRoby/bookapp/issues">Report a bug</a> · <a href="../llms.txt">llms.txt</a><br>Screenshots are real renders of the current beta with sample data. Anonymous visit counts via self-hosted Umami; never what you type.</div>
+  </div>
+</footer>
+<script defer src="https://homelab.tailbf8f27.ts.net/script.js" data-website-id="f21d767b-6137-4a51-91bb-6352c87bffa2"></script>
+</body>
+</html>

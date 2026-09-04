@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://homelab.tailbf8f27.ts.net; connect-src https://homelab.tailbf8f27.ts.net; img-src 'self' data:; style-src 'self' 'unsafe-inline'; base-uri 'self'; form-action 'none'; object-src 'none'">
+<title>bookapp: návod</title>
+<meta name="description" content="Návod na bookapp krok za krokom: inštalácia, kreslenie políc na skutočné milimetre, pridávanie a meranie kníh, synchronizácia telefónu a počítača, zálohy. Dvanásť krátkych kapitol, ku každej jeden screenshot.">
+<link rel="canonical" href="https://arling.sk/bookapp/docs/sk/">
+<link rel="alternate" hreflang="sk" href="https://arling.sk/bookapp/docs/sk/">
+<link rel="alternate" hreflang="en" href="https://arling.sk/bookapp/docs/">
+<link rel="alternate" hreflang="x-default" href="https://arling.sk/bookapp/docs/">
+<meta property="og:title" content="bookapp: návod">
+<meta property="og:description" content="Návod na bookapp v dvanástich krátkych kapitolách: inštalácia, kreslenie políc, pridávanie a meranie kníh, synchronizácia, zálohy.">
+<meta property="og:url" content="https://arling.sk/bookapp/docs/sk/">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://arling.sk/bookapp/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#f6f2ea">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../../favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+<link rel="manifest" href="../../manifest.json">
+<link rel="alternate" type="text/plain" href="https://arling.sk/bookapp/llms.txt" title="llms.txt">
+<style>
+  :root {
+    --paper:#f6f2ea; --paper-2:#fbf9f4; --ink:#1b1a17; --ink-2:#4a4741; --muted:#7a766e; --line:#d9d2c4;
+    --accent:#b23a1d; --accent-soft:#f3e2dc; --ok:#2f6f3e;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    --sans:system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"Cascadia Code",Consolas,Menlo,monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --paper:#151412; --paper-2:#1d1b18; --ink:#efe9de; --ink-2:#c9c2b5; --muted:#8f887b; --line:#2e2b26; --accent:#e0623f; --accent-soft:#3a1f17; --ok:#7fbf8e; }
+  }
+  * { box-sizing:border-box; min-width:0; }
+  html { background:var(--paper); scroll-behavior:smooth; }
+  body { margin:0; color:var(--ink); background:var(--paper); font:16px/1.55 var(--sans); -webkit-font-smoothing:antialiased; overflow-wrap:anywhere; }
+  a { color:inherit; text-decoration-color:var(--line); text-underline-offset:3px; }
+  a:hover { text-decoration-color:var(--accent); }
+  :focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+  img { max-width:100%; height:auto; display:block; }
+  .skip { position:absolute; left:-999px; top:8px; background:var(--ink); color:var(--paper); padding:8px 12px; z-index:10; }
+  .skip:focus { left:8px; }
+  .wrap { max-width:1040px; margin:0 auto; padding:0 24px; }
+  header.top { border-bottom:1px solid var(--line); }
+  header.top .wrap { display:flex; align-items:baseline; justify-content:space-between; gap:24px; padding:18px 24px; flex-wrap:wrap; }
+  .wordmark { font:600 22px/1 var(--serif); text-decoration:none; }
+  .wordmark small { font:13px/1 var(--sans); color:var(--muted); margin-left:10px; letter-spacing:.04em; }
+  nav.main { display:flex; align-items:baseline; gap:0; flex-wrap:wrap; }
+  nav.main a { font-size:14px; margin-left:20px; text-decoration:none; color:var(--ink-2); }
+  nav.main a:hover { color:var(--accent); }
+  .langsw { margin-left:20px; font-size:14px; }
+  .langsw a { text-decoration:none; color:var(--ink-2); padding:2px 4px; }
+  .langsw a[aria-current] { color:var(--ink); font-weight:600; border-bottom:2px solid var(--accent); }
+  .pagehead { padding:48px 0 8px; }
+  .pagehead h1 { font:400 clamp(30px,4.6vw,44px)/1.1 var(--serif); letter-spacing:-.01em; margin:0 0 14px; max-width:22ch; }
+  .pagehead p.lead { font-size:18px; color:var(--ink-2); max-width:60ch; margin:0 0 18px; }
+  .facts { list-style:none; margin:0 0 36px; padding:0; display:flex; flex-wrap:wrap; gap:8px 0; color:var(--muted); font-size:14px; }
+  .facts li + li::before { content:"·"; margin:0 10px; color:var(--line); }
+  .facts b { color:var(--ink); font-weight:600; }
+  .docgrid { display:grid; grid-template-columns:1fr; gap:8px; padding-bottom:56px; }
+  @media (min-width:860px) { .docgrid { grid-template-columns:220px minmax(0,1fr); gap:48px; align-items:start; } }
+  nav.toc { border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-bottom:8px; }
+  @media (min-width:860px) { nav.toc { position:sticky; top:20px; border-bottom:none; } }
+  nav.toc p.tocLabel { font:400 13px/1 var(--serif); color:var(--muted); letter-spacing:.06em; text-transform:uppercase; margin:16px 0 4px; }
+  nav.toc ol { list-style:none; margin:0; padding:0; counter-reset:toc; }
+  nav.toc li { counter-increment:toc; border-top:1px solid var(--line); }
+  nav.toc li:first-child { border-top:none; }
+  nav.toc a { display:flex; gap:10px; padding:9px 0; text-decoration:none; color:var(--ink-2); font-size:14px; line-height:1.3; }
+  nav.toc a::before { content:counter(toc,decimal-leading-zero); font:400 13px/1.6 var(--serif); color:var(--accent); flex:none; }
+  nav.toc a:hover { color:var(--ink); }
+  .chapter { padding:44px 0; border-bottom:1px solid var(--line); scroll-margin-top:20px; }
+  .chapter:last-of-type { border-bottom:none; }
+  .kicker { font:400 14px/1 var(--serif); color:var(--accent); letter-spacing:.06em; text-transform:uppercase; margin:0 0 10px; }
+  h2 { font:400 28px/1.2 var(--serif); margin:0 0 12px; letter-spacing:-.005em; }
+  .chapter > p.sub { color:var(--ink-2); max-width:66ch; margin:0 0 20px; }
+  .steps { counter-reset:step; list-style:none; margin:20px 0; padding:0; max-width:66ch; }
+  .steps li { counter-increment:step; position:relative; padding:13px 0 13px 38px; border-top:1px solid var(--line); }
+  .steps li:first-child { border-top:none; padding-top:0; }
+  .steps li::before { content:counter(step)"."; position:absolute; left:0; top:13px; font:400 16px/1.4 var(--serif); color:var(--accent); }
+  .steps li:first-child::before { top:0; }
+  .steps b { color:var(--ink); }
+  figure.shot { margin:26px 0; max-width:720px; }
+  figure.shot img { border:1px solid var(--line); background:var(--paper-2); }
+  figure.shot figcaption { color:var(--muted); font-size:13.5px; margin-top:8px; max-width:66ch; }
+  .shots2 { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; max-width:900px; }
+  .shots2 figure.shot { max-width:none; margin:0; }
+  @media (max-width:700px) { .shots2 { grid-template-columns:1fr; } }
+  .callout { max-width:66ch; margin:16px 0; padding:2px 0 2px 14px; border-left:3px solid var(--line); color:var(--ink-2); font-size:15px; }
+  .callout.tip { border-left-color:var(--ok); }
+  .callout.warn { border-left-color:var(--accent); }
+  .callout b { color:var(--ink); }
+  .noshot { color:var(--muted); font-size:14px; font-style:italic; max-width:60ch; margin:18px 0 0; }
+  code { font:13.5px/1.4 var(--mono); background:var(--paper-2); border:1px solid var(--line); border-radius:3px; padding:1px 5px; overflow-wrap:anywhere; }
+  .glossary { margin:16px 0 0; max-width:70ch; }
+  .glossary > div { padding:16px 0; border-top:1px solid var(--line); }
+  .glossary > div:first-child { border-top:none; }
+  .glossary dt { font:400 19px/1.3 var(--serif); margin:0 0 6px; }
+  .glossary dd { margin:0; color:var(--ink-2); }
+  footer { padding:32px 0 56px; color:var(--muted); font-size:14px; border-top:1px solid var(--line); }
+  footer .cols { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px 32px; }
+  footer b { color:var(--ink); font-weight:600; }
+  footer a { color:var(--ink-2); }
+  @media (max-width:480px) { .pagehead { padding:36px 0 4px; } nav.main a, .langsw { margin-left:12px; } .wordmark small { display:none; } }
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","headline":"bookapp: návod","description":"Návod na bookapp krok za krokom: inštalácia, kreslenie políc na skutočné milimetre, pridávanie a meranie kníh, umiestňovanie, synchronizácia telefónu a počítača a zálohy.","inLanguage":"sk","url":"https://arling.sk/bookapp/docs/sk/","mainEntityOfPage":"https://arling.sk/bookapp/docs/sk/","about":{"@type":"SoftwareApplication","name":"bookapp","applicationCategory":"UtilitiesApplication","operatingSystem":"Android, Windows"},"publisher":{"@type":"Organization","name":"ARLing s. r. o.","url":"https://arling.sk/"},"datePublished":"2026-09-05","dateModified":"2026-09-05"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"HowTo","name":"Inštalácia bookapp","description":"Stiahnutie a inštalácia verejnej bety bookapp na Androide alebo Windowse.","step":[
+{"@type":"HowToStep","name":"Stiahnutie","text":"Choď na stránku vydaní na GitHube a stiahni APK (Android, arm64) alebo .zip (Windows, x64)."},
+{"@type":"HowToStep","name":"Inštalácia na Androide","text":"Otvor stiahnuté APK. Povoľ inštaláciu mimo Google Play len pre tento súbor a pokračuj; APK je podpísané."},
+{"@type":"HowToStep","name":"Inštalácia na Windowse","text":"Rozbaľ priečinok a spusti bookapp.exe. Ak sa objaví SmartScreen, klikni na Ďalšie informácie a potom Napriek tomu spustiť (zostava zatiaľ nie je podpísaná certifikátom)."}
+]}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Preskočiť na návod</a>
+<header class="top">
+  <div class="wrap">
+    <a class="wordmark" href="https://arling.sk/bookapp/">bookapp<small>návod</small></a>
+    <nav class="main" aria-label="Stránka">
+      <a href="https://arling.sk/bookapp/">bookapp</a>
+      <a href="https://arling.sk/bookapp/#download">Stiahnuť</a>
+      <span class="langsw" aria-label="Jazyk"><a href="https://arling.sk/bookapp/docs/">EN</a> · <a href="https://arling.sk/bookapp/docs/sk/" aria-current="page">SK</a></span>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+    <div class="pagehead">
+      <h1>Ako používať bookapp.</h1>
+      <p class="lead">Dvanásť krátkych kapitol, v každej presné kroky a jeden skutočný screenshot. Všetko sedí s verziou 0.1.0-beta. Kde niečo ešte nie je hotové, návod to napíše rovno, nevymýšľa.</p>
+      <ul class="facts">
+        <li>verzia <b>0.1.0-beta</b></li>
+        <li>Android a Windows</li>
+        <li>12 kapitol</li>
+        <li>aktualizované <b>5. 9. 2026</b></li>
+      </ul>
+    </div>
+
+    <div class="docgrid">
+      <nav class="toc" aria-label="Kapitoly">
+        <p class="tocLabel">Kapitoly</p>
+        <ol>
+          <li><a href="#instalacia">Inštalácia</a></li>
+          <li><a href="#prva-kniznica">Prvá knižnica</a></li>
+          <li><a href="#kreslenie-polic">Kreslenie políc</a></li>
+          <li><a href="#pridavanie-knih">Pridávanie kníh</a></li>
+          <li><a href="#meranie-knih">Meranie kníh</a></li>
+          <li><a href="#umiestnovanie-knih">Umiestňovanie kníh</a></li>
+          <li><a href="#kniznupectvo">V kníhkupectve</a></li>
+          <li><a href="#synchronizacia">Synchronizácia telefónu a počítača</a></li>
+          <li><a href="#zalohy">Zálohy, obnova a export</a></li>
+          <li><a href="#nastavenia">Nastavenia a jazyk</a></li>
+          <li><a href="#riesenie-problemov">Riešenie problémov</a></li>
+          <li><a href="#slovnik">Slovník pojmov</a></li>
+        </ol>
+      </nav>
+
+      <div class="chapters">
+
+        <section class="chapter" id="instalacia">
+          <p class="kicker">01</p>
+          <h2>Inštalácia</h2>
+          <p class="sub">bookapp je bezplatná verejná beta, sťahuje sa priamo. Zatiaľ nie je v Google Play ani v Microsoft Store, preto obidva systémy pred prvým spustením varujú. To varovanie je očakávané.</p>
+          <ol class="steps">
+            <li>Otvor <a href="https://github.com/AndryRoby/bookapp/releases/latest" rel="noopener">stránku vydaní na GitHube</a> a stiahni súbor pre svoje zariadenie: APK pre Android (arm64, asi 35 MB) alebo .zip pre Windows (asi 41 MB).</li>
+            <li><b>Android:</b> otvor stiahnuté APK. Android má z výroby zablokovanú inštaláciu mimo Google Play. Povoľ ju pre tento jeden súbor a pokračuj. APK je podpísané.</li>
+            <li><b>Windows:</b> rozbaľ priečinok a spusti rovno <code>bookapp.exe</code>. Žiadny inštalátor, žiadne práva správcu netreba.</li>
+            <li><b>Windows:</b> SmartScreen ukáže „Windows chránil váš počítač", pretože zostava zatiaľ nie je podpísaná certifikátom. Klikni na „Ďalšie informácie" a potom „Napriek tomu spustiť".</li>
+            <li>Prvé spustenie ide rovno na Knižnice: žiadna registrácia, žiadny sprievodca nastavením. Ťukni na „Nová knižnica" a pokračuj kapitolou 2.</li>
+          </ol>
+          <p class="callout"><b>Kde sú dáta:</b> na Windowse v <code>Dokumenty\bookapp\bookapp.sqlite</code>, vedľa priečinka <code>Dokumenty\bookapp\backups</code>, ktorý si vieš otvoriť priamo v Prieskumníkovi. Na Androide samotná knižnica sedí v súkromnom úložisku appky, kam sa priamo nedostaneš, ale jej zálohy sa zrkadlia do priečinka, ktorý telefón ukáže v správcovi súborov (presnú cestu má kapitola 9). Nikam sa nič nenahráva.</p>
+          <p class="callout warn"><b>Pozor:</b> zatiaľ len Android a Windows. Verzia pre iPhone, iPad ani Mac neexistuje.</p>
+          <p class="noshot">K tejto kapitole nie je screenshot: obe hlásenia vyššie sú z Androidu a Windowsu samotného, nie z bookapp.</p>
+        </section>
+
+        <section class="chapter" id="prva-kniznica">
+          <p class="kicker">02</p>
+          <h2>Prvá knižnica</h2>
+          <p class="sub">Knižnica je jedna zbierka viazaná na jednu miestnosť. Môžeš ich mať koľko chceš: jednu na izbu, alebo jednu na celý byt.</p>
+          <ol class="steps">
+            <li>Otvor bookapp. „Knižnice" je domovská obrazovka: zoznam všetkých knižníc ako kariet, každá s malým náhľadom svojich políc.</li>
+            <li>Ťukni na „Nová knižnica".</li>
+            <li>Daj jej meno a vyber, v ktorej miestnosti je. Oboje sa potom ukazuje na karte knižnice.</li>
+            <li>Knižnica sa otvorí prázdna. Skoršie bety ponúkali vzorovú knižnicu na prezretie vopred; tá bola zámerne zmazaná, takže začínaš od vlastnej izby a staviaš ju policu po polici (presne o tom je kapitola 3).</li>
+            <li>Len čo sú na policiach knihy, každá karta si sama vedie priebežný súčet: koľko kníh, koľko bežných metrov kníh a koľko miesta na policiach ešte zostáva voľné.</li>
+          </ol>
+          <p class="callout tip"><b>Tip:</b> vyhľadávacie pole hore na Knižniciach („Nájsť knihu alebo dekoráciu...") hľadá naraz v celej zbierke, naprieč všetkými knižnicami, nielen v tej, ktorú práve máš otvorenú.</p>
+          <figure class="shot">
+            <img src="../img/kniznice.webp" width="1200" height="844" loading="lazy" alt="Obrazovka Knižnice: zoznam knižníc, každá s miestnosťou, počtom kníh, obsadenou dĺžkou políc a voľným miestom, s tlačidlom Nová knižnica">
+            <figcaption>Knižnice: každá karta je jedna izba, s vlastným priebežným súčtom.</figcaption>
+          </figure>
+        </section>
+
+        <section class="chapter" id="kreslenie-polic">
+          <p class="kicker">03</p>
+          <h2>Kreslenie políc</h2>
+          <p class="sub">Každá polica, skrinka a šuflík sa kreslia na svoje vlastné skutočné milimetre, nie na univerzálnu mriežku. Presne to appke neskôr umožní povedať, či sa kniha naozaj zmestí.</p>
+          <ol class="steps">
+            <li>Vnútri knižnice postav mriežku: koľko radov a koľko stĺpcov buniek regál má.</li>
+            <li>Potiahni pravítko na hrane radu alebo stĺpca a nastav jeho skutočnú šírku alebo výšku v milimetroch. Bunky nemusia sedieť rovnako: rad môže mať naprieč 820, 460 a 640 mm, napríklad, a appka si drží rozmer každej bunky zvlášť.</li>
+            <li>Označ dve alebo viac susediacich buniek a zlúč ich do jedného bloku, napríklad pre skrinku alebo širokú policu cez viac buniek naraz.</li>
+            <li>Otvor bunku a nastav, čo je to za miesto: polica (otvorená, pohľad spredu), šuflík (pohľad zhora), alebo miesto pre televízor či klimatizáciu. Pri skrinke pridaj dvierka: jednokrídlové alebo dvojkrídlové, otváranie vľavo, vpravo alebo od seba, plné alebo presklené.</li>
+            <li>Hĺbka bunky je nepovinná, ale jej zadanie zapne kontrolu, či kniha neprečnieva dopredu.</li>
+            <li>Ešte nemáš regál pred sebou? Nakresli jeho tvar na obyčajný štvorčekový papier a náčrt potom rovno premeň na bunky.</li>
+          </ol>
+          <p class="callout tip"><b>Tip:</b> šírka a výška bunky majú byť rozmer celého otvoru, vrátane škár medzi doskami police. Appka si s doskami samotnými poradí, takže meraj (alebo ťahaj) otvor, nie jednu dosku.</p>
+          <figure class="shot">
+            <img src="../img/pravitko-regalu.webp" width="1200" height="431" loading="lazy" alt="Ťahanie pravítka cez rad políc, ukazujúce šírky 820, 460 a 640 milimetrov nad každou bunkou">
+            <figcaption>Ťahanie pravítka nastaví skutočnú šírku každej bunky v milimetroch. Bunky nemusia sedieť rovnako.</figcaption>
+          </figure>
+        </section>
+
+        <section class="chapter" id="pridavanie-knih">
+          <p class="kicker">04</p>
+          <h2>Pridávanie kníh</h2>
+          <p class="sub">Štyri cesty dnu, všetky do toho istého katalógu: sken, hľadanie, ručný zápis, alebo naraz import celej tabuľky.</p>
+          <ol class="steps">
+            <li><b>Sken (len telefón):</b> otvor „Pridať podľa ISBN" a namier kameru na čiarový kód. Appka sama doplní názov, autora aj obálku z Open Library.</li>
+            <li>Nechaj pole aktívne a hneď skenuj ďalšiu knihu: asi 50 kníh za dve minúty pri celej polici naraz.</li>
+            <li><b>Bez čiarového kódu, alebo na Windowse:</b> skener existuje len na telefóne. Použi „Hľadať knihu" a napíš názov alebo autora namiesto neho; hľadá tiež v Open Library a nájdené údaje si vieš pred uložením upraviť.</li>
+            <li><b>Ešte sa nič nenašlo:</b> pridaj knihu ručne cez „Nová kniha". Povinný je len názov; autor, ISBN aj rozmery sú nepovinné.</li>
+            <li><b>Katalogizuješ už inde:</b> importuj CSV alebo Excel export z Goodreads, StoryGraph, alebo z vlastnej tabuľky. Appka na obrazovke „Priradenie stĺpcov" sama odhadne, ktorý stĺpec je ktorý, ukáže živý náhľad, a priradenie pred zápisom skontroluješ a opravíš. Samostatný prepínač riadi, či sa knihy, ktoré už vlastníš, preskočia alebo pridajú znova.</li>
+            <li><b>Radšej knižničný softvér:</b> MARC21 funguje na import aj na export.</li>
+          </ol>
+          <p class="callout warn"><b>Pozor:</b> MARC21 nesie len výšku knihy, v celých centimetroch, takže import z MARC21 je vždy označený ako odhad, nikdy nie ako odmeraný údaj.</p>
+          <div class="shots2">
+            <figure class="shot">
+              <img src="../img/skenovanie.webp" width="1200" height="844" loading="lazy" alt="Obrazovka Pridať podľa ISBN s prázdnym poľom na čiarový kód a poznámkou: zadaj a stlač Enter, ďalšie idú rovno za sebou">
+              <figcaption>Pridať podľa ISBN: skenuj jednu knihu za druhou bez opätovného otvárania obrazovky.</figcaption>
+            </figure>
+            <figure class="shot">
+              <img src="../img/mapovanie-stlpcov.webp" width="1200" height="844" loading="lazy" alt="Obrazovka Priradenie stĺpcov, ktorá páruje stĺpce CSV súboru (Názov, Autor, ISBN, Rok vydania, Poznámka) s poľami bookapp a živým náhľadom tabuľky">
+              <figcaption>Priradenie stĺpcov: skontroluj odhadnuté priradenie proti živému náhľadu pred importom.</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="chapter" id="meranie-knih">
+          <p class="kicker">05</p>
+          <h2>Meranie kníh</h2>
+          <p class="sub">bookapp nečíta hrúbku knihy z fotky. Štyri rôzne metódy sa testovali na skutočných policiach a ani jedna nebola dosť presná na to, aby sa jej dalo veriť, takže namiesto tichého hádania hovorí appka otvorene, odkiaľ je každé číslo.</p>
+          <ol class="steps">
+            <li>Odmeraj knihu raz skutočným pravítkom alebo metrom a zapíš jej výšku, šírku a hrúbku v milimetroch.</li>
+            <li>Alebo namiesto toho vyber formát: brožovaná, viazaná a podobne. Appka doplní typickú hrúbku pre daný formát a označí ju ako odhad, kým ju neopravíš.</li>
+            <li>Len čo je polica úplne plná a každá kniha na nej má aspoň formát, otvor „Poriadok v knižnici". Zo známej šírky police appka dopočíta skutočnú hrúbku kníh, ktoré sa nikdy priamo nemerali: žiadna fotka, žiadna kamera, len počet z plnej police.</li>
+            <li>Kedykoľvek skontroluj „Presnosť priestorových čísel" v Štatistikách: povie, aký podiel rozmerov v knižnici je naozaj odmeraný a aký len odhadnutý.</li>
+          </ol>
+          <p class="callout"><b>Odkiaľ je každé číslo:</b> každý rozmer, ktorý appka ukazuje, má pri sebe svoj pôvod: odmeraný tebou, dopočítaný z plnej police, odhadnutý z formátu, prevzatý z importu, alebo neznámy. Nič sa nikdy potichu nevymýšľa.</p>
+          <p class="callout warn"><b>Pozor:</b> meranie z fotky sa testovalo poctivo, na skutočných policiach, štyrikrát samostatne, a 29. júla 2026 bolo zamietnuté, lebo sa mýlilo dosť často na to, aby bolo nebezpečné. Sebavedomo zlé číslo je horšie než prázdne pole, takže ho appka nedodáva.</p>
+          <figure class="shot">
+            <img src="../img/doktor.webp" width="1200" height="844" loading="lazy" alt="Obrazovka Poriadok v knižnici s policou zaplnenou na 9 percent a poznámkou, že polica meria sama seba a 14 rozmerov buniek sa potvrdilo bez toho, aby sa vzala do ruky čo i len jedna kniha">
+            <figcaption>Poriadok v knižnici: plná polica dopočítava hrúbku kníh, ktoré sa nikdy nemerali.</figcaption>
+          </figure>
+        </section>
+
+        <section class="chapter" id="umiestnovanie-knih">
+          <p class="kicker">06</p>
+          <h2>Umiestňovanie kníh</h2>
+          <p class="sub">bookapp overí knihu proti každej bunke v knižnici, v každej polohe, v akej by mohla fyzicky stáť, a výsledky zoradí tak, aby ten, ktorý naozaj chceš, bol hore.</p>
+          <ol class="steps">
+            <li>Otvor detail knihy a ťukni na „Kam sa zmestí?": appka prejde každú bunku v knižnici a vypíše tie, kde je miesto.</li>
+            <li>Každý kandidát sa kontroluje vo všetkých troch polohách, v akých kniha môže stáť: chrbtom, obálkou vpred, alebo naležato (a ako posledná možnosť natočená do hĺbky police, keď sa inak nezmestí nič).</li>
+            <li>Na umiestnenie celej série naraz použi „Umiestniť sériu": vyber sériu a appka nájde súvislý úsek police, na ktorom zostanú všetky diely pokope, v správnom poradí, aj s vysvetlením, ako presne sa zmestia.</li>
+            <li>Kam presne kniha na polici patrí, nie je náhoda: appka radí kandidátov najprv podľa série, potom podľa autora, potom podľa tesnosti, teda najtesnejšieho rozumného miesta.</li>
+            <li>Umiestnenie sa dá vyskúšať a jedným ťuknutím vrátiť späť, kým sa nepotvrdí.</li>
+            <li>Dochádza miesto? „Získať miesto" nájde preskladanie, vopred povie, koľko súvislého miesta by uvoľnilo (napríklad „získaš 400 cm" z piatich políc uvoľnených úplne, nie z rozhádzaných medzier, ktoré by sa aj tak nedali využiť), a pred potvrdením vypíše každý presun zvlášť.</li>
+          </ol>
+          <p class="callout tip"><b>Tip:</b> stránka série tiež upozorní na „Chýba ti diel 3" tak, že počíta diery medzi dielmi, ktoré naozaj vlastníš. Upozorní teda len na knihy, ktoré ti podľa všetkého chýbajú, nie na hocijaké číslo za posledným katalogizovaným dielom.</p>
+          <figure class="shot">
+            <img src="../img/detail-knihy.webp" width="1200" height="844" loading="lazy" alt="Obrazovka detailu knihy s tlačidlom Kam sa zmestí? a poznámkou, že kontrola prejde každú bunku a hľadá voľné milimetre, na šírku aj do hĺbky">
+            <figcaption>Detail knihy: „Kam sa zmestí?" prejde naraz každú bunku.</figcaption>
+          </figure>
+        </section>
+
+        <section class="chapter" id="kniznupectvo">
+          <p class="kicker">07</p>
+          <h2>V kníhkupectve</h2>
+          <p class="sub">Postavené presne na tú chvíľu, keď stojíš v obchode s knihou v ruke a nevieš, či ju už nemáš doma a či by sa ti vôbec zmestila.</p>
+          <ol class="steps">
+            <li>Otvor „V kníhkupectve" ešte pred kúpou.</li>
+            <li>Naskenuj ISBN, alebo napíš názov, ak čiarový kód chýba alebo zariadenie nemá kameru.</li>
+            <li>Ak ešte nepoznáš presný rozmer knihy, vyber namiesto neho formát: vreckový, brožovaná, viazaná, alebo veľký formát.</li>
+            <li>Jeden sken naraz odpovie na tri otázky: či ju už máš, či sa niekde zmestí, a kam presne.</li>
+          </ol>
+          <p class="callout tip"><b>Tip:</b> funguje aj bez kamery. Zadaj ISBN alebo názov ručne a dostaneš tie isté tri odpovede.</p>
+          <figure class="shot">
+            <img src="../img/knihkupectvo.webp" width="1200" height="844" loading="lazy" alt="Obrazovka V kníhkupectve: pole na ISBN alebo názov, tlačidlá formátu vreckový, brožovaná, viazaná a veľký formát, a poznámka, že jeden sken odpovie, či knihu máš, či sa zmestí a kam presne">
+            <figcaption>V kníhkupectve: jeden sken, tri odpovede.</figcaption>
+          </figure>
+        </section>
+
+        <section class="chapter" id="synchronizacia">
+          <p class="kicker">08</p>
+          <h2>Synchronizácia telefónu a počítača</h2>
+          <p class="sub">Telefón a počítač s Windows sa rozprávajú priamo cez vlastnú Wi-Fi. Server tvoju knižnicu nevidí nikdy.</p>
+          <ol class="steps">
+            <li>Daj obe zariadenia na tú istú Wi-Fi sieť.</li>
+            <li>Otvor „Synchronizácia" na oboch.</li>
+            <li>Na Windowse pri prvom spustení potvrď okno „Windows Defender Firewall zablokoval niektoré funkcie": zaškrtni Súkromné siete a potvrď. Bez toho sa zariadenia navzájom nenájdu. Appka nepotrebuje práva správcu, neinštaluje žiadnu službu a spojenie beží len kým je táto obrazovka otvorená na oboch stranách.</li>
+            <li>Ťukni na „Zapnúť synchronizáciu" na oboch zariadeniach.</li>
+            <li>Vyber smer a nechaj to zlúčiť: nič sa nemaže, a kde sa ten istý záznam zmenil na oboch stranách, vyhráva novšia úprava.</li>
+            <li>Podávaš appku niekomu inému, alebo ideš do obchodu, kde by jeden nechcený ťuk mohol presunúť knihu? Najprv zapni „Režim návštevy": všetko ostáva na prezeranie, ale nič sa nedá presunúť ani zmazať, ani omylom.</li>
+          </ol>
+          <figure class="shot">
+            <img src="../img/synchronizacia.webp" width="1200" height="844" loading="lazy" alt="Obrazovka Synchronizácia s vysvetlením, že obe zariadenia musia byť na tej istej Wi-Fi, upozornením na okno Windows Firewall a tlačidlom Zapnúť synchronizáciu">
+            <figcaption>Synchronizácia: priama a lokálna, beží len kým je táto obrazovka otvorená.</figcaption>
+          </figure>
+        </section>
+
+        <section class="chapter" id="zalohy">
+          <p class="kicker">09</p>
+          <h2>Zálohy, obnova a export</h2>
+          <p class="sub">Zálohy sa dejú samy, bez toho aby si o ne požiadal, a appka spraví ešte jednu navyše predtým, než by čokoľvek mohlo prísť o dáta.</p>
+          <ol class="steps">
+            <li>bookapp sa zálohuje sám a potichu každý deň, drží posledných sedem. Je to len dáta (katalóg, police, rozmery, čítanie), nie obrázky obálok, takže všetkých sedem spolu je len pár megabajtov.</li>
+            <li>Pred každou akciou, ktorá by prepísala knižnicu (obnova, veľký import, vymazanie knižnice), appka najprv spraví ešte jednu „záchrannú zálohu", presne preto, aby sa taká akcia dala vrátiť.</li>
+            <li>Zálohy žijú zámerne mimo appky. Na Windowse: <code>Dokumenty\bookapp\backups</code>. Na Androide: priečinok v zdieľanom úložisku telefónu, viditeľný v správcovi súborov alebo cez USB, aby stratený alebo resetovaný telefón zálohy nezobral so sebou. Odinštalovanie bookapp však tento priečinok zmaže, takže si ho pred odinštalovaním najprv skopíruj von.</li>
+            <li>Choď do Nastavenia → „Zálohy a obnova" a exportuj zálohu na požiadanie, alebo z nej obnov. Obnova nahradí súčasnú knižnicu: presne preto existuje záchranná záloha.</li>
+            <li>Potrebuješ dáta v inom formáte? Nastavenia → „Export a odovzdanie" pokrývajú CSV, JSON, MARCXML, inventúrny hárok a jednoduchý zoznam formátovaný na odovzdanie AI nástroju.</li>
+            <li>Sťahuješ sa, predávaš regál, alebo chceš len papierový záznam? Exportuj PDF audit knižnice a stolársky výkaz (rozmery a zoznam výrezov, vrátane výrezov pre zásuvky). Každý export nesie podpis, ktorý presne povie, z akých dát vznikol.</li>
+          </ol>
+          <p class="callout warn"><b>Pozor:</b> MARC21 export nesie len výšku knihy, v celých centimetroch. Cestu tam a späť cez MARC21 ber ako stratu presnosti, nie ako plnohodnotnú zálohu.</p>
+          <figure class="shot">
+            <img src="../img/nastavenia.webp" width="1200" height="844" loading="lazy" alt="Obrazovka Nastavenia so zoznamom Zálohy a obnova, Import, Export a odovzdanie, Obálky a obrázky, Synchronizácia, Údržba knižnice, Zdroje metadát a O aplikácii, s prepínačom Režim návštevy hore">
+            <figcaption>Nastavenia: zálohy, import aj export majú vlastnú obrazovku.</figcaption>
+          </figure>
+        </section>
+
+        <section class="chapter" id="nastavenia">
+          <p class="kicker">10</p>
+          <h2>Nastavenia a jazyk</h2>
+          <ol class="steps">
+            <li>Jazyk a vzhľad bývajú spolu, v Nastavenia → „O aplikácii": slovenčina alebo angličtina, buď priamo, alebo podľa systému. Zmena je okamžitá, bez reštartu.</li>
+            <li>Prepnutie jazyka rozhrania neprekladá uložené dáta: hodnoty ako stav väzby výtlačku alebo hlavičky exportov si zámerne držia svoje interné anglické kódové mená, aby sa staršia záloha, alebo synchronizácia so zariadením nastaveným na iný jazyk, dala vždy správne načítať.</li>
+            <li>Vzhľad (podľa systému, svetlý, tmavý) je na tej istej obrazovke a mení sa tiež okamžite.</li>
+          </ol>
+          <p class="callout"><b>Jednotky:</b> bookapp ukazuje rozmery v milimetroch a centimetroch; samostatný prepínač na palce dnes nie je a rozmery sa vždy interne ukladajú v milimetroch, nech je rozhranie v ktoromkoľvek jazyku.</p>
+          <p class="noshot">K tejto kapitole zatiaľ nie je screenshot: prepínače jazyka a vzhľadu sedia vnútri obrazovky O aplikácii, ktorá sa v tejto zostave nezachytila zvlášť od zvyšku Nastavení.</p>
+        </section>
+
+        <section class="chapter" id="riesenie-problemov">
+          <p class="kicker">11</p>
+          <h2>Riešenie problémov</h2>
+          <ol class="steps">
+            <li><b>Android hlási „Aplikácia nie je nainštalovaná":</b> stáva sa to, keď je na telefóne už staršia alebo inak zostavená kópia. Vydaný APK nesie vlastné číslo verzie podľa architektúry zariadenia a Android odmietne čokoľvek, čo vyzerá ako downgrade. Oprava: najprv odinštaluj starú kópiu, potom nainštaluj čerstvý APK z najnovšieho vydania.</li>
+            <li><b>Windows SmartScreen:</b> „Windows chránil váš počítač" sa objaví, lebo zostava zatiaľ nie je podpísaná certifikátom (kapitola 1). Klikni na „Ďalšie informácie" a potom „Napriek tomu spustiť".</li>
+            <li><b>Synchronizácia nenájde druhé zariadenie:</b> skontroluj, či sú obe zariadenia naozaj na tej istej Wi-Fi (nie na hosťovskej alebo izolovanej sieti, ktorú veľa verejných a niektoré domáce „hosťovské" siete zámerne používajú, aby sa zariadenia navzájom nevideli), či je obrazovka Synchronizácia otvorená na oboch stranách naraz, a či si potvrdil okno Windows Firewall pre súkromné siete.</li>
+            <li><b>Rozmer vyzerá zle:</b> otvor knihu a skontroluj, odkiaľ to číslo je (kapitola 5). Odhad alebo import sa smie mýliť; ručne odmeraný by nemal. Odmeraj ho znova pravítkom a zapíš znova.</li>
+            <li><b>Hlásenie chyby:</b> táto beta zatiaľ nezapisuje denník pádov, takže najužitočnejšie hlásenie je presné: ktorá obrazovka, na čo si ťukol, čo si čakal, čo sa stalo namiesto toho, a či sa to zopakovalo aj na druhý pokus. Otvor issue na <a href="https://github.com/AndryRoby/bookapp/issues" rel="noopener">GitHube</a>. Ak sa appka vôbec nespustí, nič iné najprv neskúšaj. Skopíruj priečinok so zálohami (kapitola 9) niekam bokom, až potom appku preinštaluj alebo maž dáta.</li>
+          </ol>
+        </section>
+
+        <section class="chapter" id="slovnik">
+          <p class="kicker">12</p>
+          <h2>Slovník pojmov</h2>
+          <p class="sub">Pojmy použité v tomto návode presne tak, ako ich používa samotná appka.</p>
+          <dl class="glossary">
+            <div>
+              <dt>Bunka</dt>
+              <dd>Jedno políčko mriežky: polica, šuflík, alebo miesto pre televízor či klimatizáciu, každé s vlastnou skutočnou šírkou, výškou a nepovinnou hĺbkou.</dd>
+            </div>
+            <div>
+              <dt>Blok</dt>
+              <dd>Dve alebo viac susediacich buniek zlúčených do jedného kusu nábytku: napríklad skrinka cez viac otvorov police naraz. Pôdorys bloku je vždy jeden celý obdĺžnik.</dd>
+            </div>
+            <div>
+              <dt>Skrinka</dt>
+              <dd>Bunka alebo blok s dvierkami: jednokrídlové alebo dvojkrídlové, otváranie vľavo, vpravo alebo od seba, plné alebo presklené.</dd>
+            </div>
+            <div>
+              <dt>Šuflík</dt>
+              <dd>Bunka, na ktorú sa pozerá zhora, nie spredu: jej obsah aj presná poloha vecí v nej sa kreslia na jej dno.</dd>
+            </div>
+            <div>
+              <dt>Polica ako pravítko</dt>
+              <dd>Úplne plná polica, ktorej známa šírka umožní appke dopočítať hrúbku ktorejkoľvek knihy na nej, ktorá sa nikdy priamo nemerala (kapitola 5).</dd>
+            </div>
+            <div>
+              <dt>Pôvod rozmeru</dt>
+              <dd>Odkiaľ je rozmer knihy: odmeraný tebou, dopočítaný z plnej police, odhadnutý z formátu, prevzatý z importu, alebo neznámy.</dd>
+            </div>
+            <div>
+              <dt>Orientácia</dt>
+              <dd>Ako kniha stojí v bunke: chrbtom, obálkou vpred, naležato, alebo natočená do hĺbky police, keď sa inak nezmestí nič.</dd>
+            </div>
+            <div>
+              <dt>Režim návštevy</dt>
+              <dd>Zámok, ktorý nechá celú knižnicu na prezeranie, ale zablokuje každú zmenu. Určený na podanie telefónu niekomu inému bez rizika nechceného ťuku.</dd>
+            </div>
+            <div>
+              <dt>Skúšobné rozloženie</dt>
+              <dd>Umiestnenie, ktoré sa dá vyskúšať a jedným ťuknutím vrátiť späť, kým sa nepotvrdí.</dd>
+            </div>
+          </dl>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap cols">
+    <div><b>ARLing s. r. o.</b><br>Ivanská cesta 32E<br>821 04 Bratislava</div>
+    <div>IČO 56583486<br>IČ DPH SK2122352100<br><a href="mailto:andrej@arling.sk">andrej@arling.sk</a></div>
+    <div><a href="https://arling.sk/bookapp/">bookapp</a> · <a href="https://github.com/AndryRoby/bookapp/issues">Nahlásiť chybu</a> · <a href="../../llms.txt">llms.txt</a><br>Screenshoty sú skutočné rendery aktuálnej bety so vzorovými dátami. Anonymné počty návštev cez vlastný Umami, nikdy nie to, čo si napísal.</div>
+  </div>
+</footer>
+<script defer src="https://homelab.tailbf8f27.ts.net/script.js" data-website-id="f21d767b-6137-4a51-91bb-6352c87bffa2"></script>
+</body>
+</html>
