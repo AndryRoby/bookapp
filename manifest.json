@@ -1,5 +1,5 @@
 {
-  "name": "bookapp — home library in millimetres",
+  "name": "bookapp: home library in millimetres",
   "short_name": "bookapp",
   "description": "A spatial digital twin of your home library, modelled in real millimetres. Free public beta for Android and Windows. No account, no cloud.",
   "start_url": "./",
