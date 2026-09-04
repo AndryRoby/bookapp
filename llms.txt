@@ -26,6 +26,8 @@ Free public beta (v0.1.0-beta). The goal of this release is downloads and feedba
 ## Links
 
 - Landing page: https://arling.sk/bookapp/
+- Docs (step-by-step guide, English): https://arling.sk/bookapp/docs/
+- Docs (návod, Slovak): https://arling.sk/bookapp/docs/sk/
 - Full reference: https://arling.sk/bookapp/llms-full.txt
 - Releases: https://github.com/AndryRoby/bookapp/releases
 - Hub (more ARLing tools): https://arling.sk/
