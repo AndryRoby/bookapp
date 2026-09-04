@@ -1,0 +1,39 @@
+# bookapp
+
+> A free public-beta app that models a home library as a spatial digital twin, in real millimetres — shelves, cabinets, drawers and books — so it knows what fits and exactly where. Android and Windows. No account, no cloud.
+
+## What it does
+
+bookapp lets you draw your bookshelves, cabinets and drawers to their true millimetre dimensions, then add books by scanning the ISBN barcode (or searching, or entering by hand). Because both the furniture and the books are modelled at real size, bookapp can tell you whether a specific book fits on a specific shelf and exactly which cell it belongs in — before you buy the book or the bookcase. It also has a filterable catalogue, loan tracking, page-based reading progress, ratings, backups, and syncing between a phone and a Windows PC directly over local Wi-Fi (no server involved).
+
+## What it does not do
+
+bookapp does not measure book thickness automatically from a photo. This was tried seriously — several methods, tested on real shelves — and none were reliable enough to trust, so it isn't shipped. Instead, a book's thickness is either measured once with a ruler, or estimated from its format (paperback, hardback, etc.), always visibly labelled "approximately" until corrected. bookapp does not run on iPhone or iPad, and it is not listed on Google Play or the Microsoft Store — it is a direct-download beta.
+
+## Who it is for
+
+People who own a home library large enough that "will this book fit" or "which shelf was that on" is a real question, and who want an offline, no-account, no-cloud tool rather than a spreadsheet or a cataloguing web service.
+
+## Status
+
+Free public beta (v0.1.0-beta). The goal of this release is downloads and feedback. Licensing and any future paid version are undecided and will be addressed later; nothing in the current beta requires payment.
+
+## Download
+
+- Android (APK, arm64): https://github.com/AndryRoby/bookapp/releases/latest
+- Windows (.zip, x64): https://github.com/AndryRoby/bookapp/releases/latest
+
+## Links
+
+- Landing page: https://arling.sk/bookapp/
+- Full reference: https://arling.sk/bookapp/llms-full.txt
+- Releases: https://github.com/AndryRoby/bookapp/releases
+- Hub (more ARLing tools): https://arling.sk/
+
+## Privacy
+
+No account, no login, no cloud. All data lives in a local database on the device. Phone-to-PC sync happens directly over local Wi-Fi, never through a server. Anonymous usage counts (page views, button clicks — not library contents) are collected with a self-hosted Umami instance on the landing page only; the app itself does not phone home.
+
+## Contact
+
+Built by ARLing s. r. o., Bratislava, Slovakia. andrej@arling.sk
