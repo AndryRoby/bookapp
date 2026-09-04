@@ -11,7 +11,7 @@
 <meta property="og:description" content="Shelves and books modelled in real millimetres. Free public beta for Android and Windows, offline, no account.">
 <meta property="og:url" content="https://arling.sk/bookapp/">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://arling.sk/bookapp/og-image.png">
+<meta property="og:image" content="https://arling.sk/bookapp/assets/shot-shelfie.webp">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#f6f2ea">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -70,9 +70,8 @@
   .rules li::before { counter-increment:r; content:counter(r,decimal-leading-zero); font:400 14px/1 var(--serif); color:var(--accent); display:block; margin-bottom:8px; }
   .rules b { display:block; font-weight:600; margin-bottom:4px; }
   .rules p { margin:0; color:var(--ink-2); font-size:15px; }
-  .shots { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; }
+  .shots { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; }
   figure a { display:block; }
-  .shelfie figure img { max-width:760px; margin:0 auto; }
   .plain { margin:0; padding:0; list-style:none; max-width:70ch; }
   .plain li { padding:14px 0; border-top:1px solid var(--line); color:var(--ink-2); }
   .plain li b { color:var(--ink); }
@@ -147,8 +146,8 @@
   <div class="shelfie">
     <div class="wrap">
       <figure>
-        <a href="assets/shot-shelves.webp" target="_blank" rel="noopener"><img src="assets/shot-shelves.webp" width="760" height="500" alt="Library overview: a bookcase with closed doors, a glass cabinet and open shelves, drawn to true proportions"></a>
-        <figcaption>The library overview, rendered from the current build with sample data. Doors, a glass cabinet and open shelves, all in their real proportions. Click any screenshot to open it full size.</figcaption>
+        <a href="assets/shelfie-full.webp" target="_blank" rel="noopener"><img src="assets/shot-shelfie.webp" width="1400" height="941" alt="A real home library rendered by bookapp: every book spine in its real width and colour, shelves and cabinets to scale"></a>
+        <figcaption>A real library of 292 books, exported from bookapp. Every spine has its real width. Click to open in full size.</figcaption>
       </figure>
     </div>
   </div>
@@ -175,6 +174,10 @@
       <h2>Screens</h2>
       <p class="sub">Rendered from the current build with sample data. Click to open full size.</p>
       <div class="shots">
+        <figure>
+          <a href="assets/shot-shelves.webp" target="_blank" rel="noopener"><img src="assets/shot-shelves.webp" width="760" height="500" loading="lazy" alt="Library overview: a bookcase with closed doors, a glass cabinet and open shelves, drawn to true proportions"></a>
+          <figcaption>Cabinets, glass doors and open shelves, to true proportions.</figcaption>
+        </figure>
         <figure>
           <a href="assets/shot-cell.webp" target="_blank" rel="noopener"><img src="assets/shot-cell.webp" width="1200" height="581" loading="lazy" alt="Shelf cell detail: two books on a shelf, occupied 5.6 cm of 80 cm, free space computed"></a>
           <figcaption>One shelf cell: occupied 5.6 of 80 cm, and how many books still fit.</figcaption>
