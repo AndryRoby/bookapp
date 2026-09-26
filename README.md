@@ -97,14 +97,14 @@ All library data stays on your device in a local database; nothing about your bo
 
 ## Report a problem
 
-Found something broken on this page, a download link that fails, or a bug in the app itself? Open an issue at https://github.com/AndryRoby/bookapp/issues, or write to andrej@arling.sk. For an app bug, include what you were doing, roughly how large your library is, and whether it's Android or Windows; a screenshot helps.
+Found something broken on this page, a download link that fails, or a bug in the app itself? Open an issue at https://github.com/AndryRoby/bookapp/issues, or write to support@arling.sk. For an app bug, include what you were doing, roughly how large your library is, and whether it's Android or Windows; a screenshot helps.
 
 ## License
 
-All rights reserved, © 2026 ARLing s. r. o. (Bratislava, Slovakia), for this landing page and for bookapp itself. The hosted site and the compiled beta builds are free to use, for any purpose, at no cost. Reading `index.html` and the two scripts here is reading the entire site, and that's fine, learn from it. Rehosting this page, repackaging bookapp's builds as your own, or using the bookapp or ARLing name for your own project is not; for anything else (a fix, a translation, a bulk-deployment use case), write to andrej@arling.sk.
+All rights reserved, © 2026 ARLing s. r. o. (Bratislava, Slovakia), for this landing page and for bookapp itself. The hosted site and the compiled beta builds are free to use, for any purpose, at no cost. Reading `index.html` and the two scripts here is reading the entire site, and that's fine, learn from it. Rehosting this page, repackaging bookapp's builds as your own, or using the bookapp or ARLing name for your own project is not; for anything else (a fix, a translation, a bulk-deployment use case), write to support@arling.sk.
 
 ---
 
-ARLing s. r. o., Bratislava, Slovakia. andrej@arling.sk
+ARLing s. r. o., Bratislava, Slovakia. support@arling.sk
 
 Hub and sibling tools: https://arling.sk/ · https://arling.sk/google-oauth-redirect-doctor/ · https://arling.sk/expo-supabase-auth-doctor/ · https://arling.sk/supabase-redirect-doctor/ · https://arling.sk/flutter-supabase-doctor/ · https://arling.sk/expo-universal-links-doctor/ · https://arling.sk/sepa-pain001-doctor/
